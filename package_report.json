@@ -1,0 +1,1002 @@
+{
+    "boto3": {
+        "DownloadCount": 1380415659,
+        "DownloadRanking": 1,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "urllib3": {
+        "DownloadCount": 569729169,
+        "DownloadRanking": 2,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 53.35907335907336,
+            "return_type_coverage": 98.95968790637191,
+            "skipped_files": 0
+        }
+    },
+    "setuptools": {
+        "DownloadCount": 507206566,
+        "DownloadRanking": 3,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 24.3681592039801,
+            "return_type_coverage": 33.362629636139914,
+            "skipped_files": 0
+        }
+    },
+    "requests": {
+        "DownloadCount": 502591890,
+        "DownloadRanking": 4,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.34305317324185247,
+            "return_type_coverage": 0.14992503748125938,
+            "skipped_files": 0
+        }
+    },
+    "botocore": {
+        "DownloadCount": 472583540,
+        "DownloadRanking": 5,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "certifi": {
+        "DownloadCount": 447998818,
+        "DownloadRanking": 6,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 100.0,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "charset-normalizer": {
+        "DownloadCount": 437514517,
+        "DownloadRanking": 7,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 53.979238754325266,
+            "return_type_coverage": 73.44632768361582,
+            "skipped_files": 0
+        }
+    },
+    "idna": {
+        "DownloadCount": 435160701,
+        "DownloadRanking": 8,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 48.18181818181818,
+            "return_type_coverage": 72.25806451612902,
+            "skipped_files": 0
+        }
+    },
+    "typing-extensions": {
+        "DownloadCount": 419048423,
+        "DownloadRanking": 9,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 4.785643070787637,
+            "return_type_coverage": 11.751152073732719,
+            "skipped_files": 0
+        }
+    },
+    "python-dateutil": {
+        "DownloadCount": 371670022,
+        "DownloadRanking": 10,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "packaging": {
+        "DownloadCount": 362693873,
+        "DownloadRanking": 11,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 21.580547112462007,
+            "return_type_coverage": 45.062836624775585,
+            "skipped_files": 0
+        }
+    },
+    "grpcio-status": {
+        "DownloadCount": 356695532,
+        "DownloadRanking": 12,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "pyyaml": {
+        "DownloadCount": 341350996,
+        "DownloadRanking": 13,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.23328149300155523,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "s3transfer": {
+        "DownloadCount": 340904265,
+        "DownloadRanking": 14,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "aiobotocore": {
+        "DownloadCount": 340388672,
+        "DownloadRanking": 15,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 3.3707865168539324,
+            "return_type_coverage": 1.89873417721519,
+            "skipped_files": 0
+        }
+    },
+    "cryptography": {
+        "DownloadCount": 329955198,
+        "DownloadRanking": 16,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 21.448908573236316,
+            "return_type_coverage": 34.50189891907684,
+            "skipped_files": 0
+        }
+    },
+    "six": {
+        "DownloadCount": 320911840,
+        "DownloadRanking": 17,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "pip": {
+        "DownloadCount": 290879283,
+        "DownloadRanking": 18,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 38.54726368159204,
+            "return_type_coverage": 59.435724962630786,
+            "skipped_files": 0
+        }
+    },
+    "numpy": {
+        "DownloadCount": 290278590,
+        "DownloadRanking": 19,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 33.43726402455363,
+            "return_type_coverage": 36.994955033998686,
+            "skipped_files": 0
+        }
+    },
+    "s3fs": {
+        "DownloadCount": 281038694,
+        "DownloadRanking": 20,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 11.335012594458437,
+            "return_type_coverage": 14.338235294117647,
+            "skipped_files": 0
+        }
+    },
+    "fsspec": {
+        "DownloadCount": 275435272,
+        "DownloadRanking": 21,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 6.5826899634295,
+            "return_type_coverage": 11.03896103896104,
+            "skipped_files": 0
+        }
+    },
+    "cffi": {
+        "DownloadCount": 263532832,
+        "DownloadRanking": 22,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.12526096033402923,
+            "return_type_coverage": 0.0,
+            "skipped_files": 12
+        }
+    },
+    "wheel": {
+        "DownloadCount": 247986115,
+        "DownloadRanking": 23,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 47.706422018348626,
+            "return_type_coverage": 70.17045454545455,
+            "skipped_files": 0
+        }
+    },
+    "pycparser": {
+        "DownloadCount": 240522729,
+        "DownloadRanking": 24,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "pandas": {
+        "DownloadCount": 237196525,
+        "DownloadRanking": 25,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 18.773559760880325,
+            "return_type_coverage": 21.287215719357448,
+            "skipped_files": 0
+        }
+    },
+    "importlib-metadata": {
+        "DownloadCount": 226950755,
+        "DownloadRanking": 26,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 11.979166666666668,
+            "return_type_coverage": 21.311475409836063,
+            "skipped_files": 0
+        }
+    },
+    "google-api-core": {
+        "DownloadCount": 225126197,
+        "DownloadRanking": 27,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 7.201187824795843,
+            "return_type_coverage": 5.973025048169557,
+            "skipped_files": 0
+        }
+    },
+    "rsa": {
+        "DownloadCount": 214051073,
+        "DownloadRanking": 28,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 76.38190954773869,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "attrs": {
+        "DownloadCount": 212943258,
+        "DownloadRanking": 29,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 14.420555846879916,
+            "return_type_coverage": 9.972552607502287,
+            "skipped_files": 1
+        }
+    },
+    "pydantic": {
+        "DownloadCount": 210166953,
+        "DownloadRanking": 30,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 50.51274083281542,
+            "return_type_coverage": 53.596330275229356,
+            "skipped_files": 0
+        }
+    },
+    "pyasn1": {
+        "DownloadCount": 206828246,
+        "DownloadRanking": 31,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "zipp": {
+        "DownloadCount": 204037842,
+        "DownloadRanking": 32,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 1.4218009478672986,
+            "return_type_coverage": 0.7633587786259541,
+            "skipped_files": 0
+        }
+    },
+    "click": {
+        "DownloadCount": 201897521,
+        "DownloadRanking": 33,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 41.44769459593456,
+            "return_type_coverage": 40.15873015873016,
+            "skipped_files": 0
+        }
+    },
+    "jmespath": {
+        "DownloadCount": 194946634,
+        "DownloadRanking": 34,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "pytz": {
+        "DownloadCount": 191757635,
+        "DownloadRanking": 35,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "protobuf": {
+        "DownloadCount": 188164640,
+        "DownloadRanking": 36,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 4.029126213592233,
+            "return_type_coverage": 9.038238702201621,
+            "skipped_files": 0
+        }
+    },
+    "platformdirs": {
+        "DownloadCount": 180402700,
+        "DownloadRanking": 37,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 61.33333333333333,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "colorama": {
+        "DownloadCount": 177322958,
+        "DownloadRanking": 38,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "pyjwt": {
+        "DownloadCount": 175756407,
+        "DownloadRanking": 39,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 27.48299319727891,
+            "return_type_coverage": 30.287206266318538,
+            "skipped_files": 0
+        }
+    },
+    "jinja2": {
+        "DownloadCount": 165223007,
+        "DownloadRanking": 40,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 38.297872340425535,
+            "return_type_coverage": 48.719676549865234,
+            "skipped_files": 0
+        }
+    },
+    "markupsafe": {
+        "DownloadCount": 164501125,
+        "DownloadRanking": 41,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 35.64356435643564,
+            "return_type_coverage": 47.5,
+            "skipped_files": 0
+        }
+    },
+    "tomli": {
+        "DownloadCount": 155492504,
+        "DownloadRanking": 42,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 89.65517241379311,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "awscli": {
+        "DownloadCount": 153327065,
+        "DownloadRanking": 43,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.09419743782969103,
+            "return_type_coverage": 0.1687051876845213,
+            "skipped_files": 0
+        }
+    },
+    "wrapt": {
+        "DownloadCount": 150467028,
+        "DownloadRanking": 44,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.06049606775559589,
+            "return_type_coverage": 1.2455516014234875,
+            "skipped_files": 0
+        }
+    },
+    "cachetools": {
+        "DownloadCount": 146403646,
+        "DownloadRanking": 45,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "google-auth": {
+        "DownloadCount": 144536009,
+        "DownloadRanking": 46,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.16420361247947454,
+            "return_type_coverage": 0.44419766796224325,
+            "skipped_files": 0
+        }
+    },
+    "googleapis-common-protos": {
+        "DownloadCount": 143170087,
+        "DownloadRanking": 47,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "filelock": {
+        "DownloadCount": 141920543,
+        "DownloadRanking": 48,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 70.0,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "pluggy": {
+        "DownloadCount": 138375734,
+        "DownloadRanking": 49,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 39.87034035656402,
+            "return_type_coverage": 58.901098901098905,
+            "skipped_files": 0
+        }
+    },
+    "pytest": {
+        "DownloadCount": 132890521,
+        "DownloadRanking": 50,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 48.30049794327776,
+            "return_type_coverage": 76.69421487603306,
+            "skipped_files": 0
+        }
+    },
+    "requests-oauthlib": {
+        "DownloadCount": 132867288,
+        "DownloadRanking": 51,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "pyarrow": {
+        "DownloadCount": 132233490,
+        "DownloadRanking": 52,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 1.270772238514174,
+            "return_type_coverage": 1.2742382271468145,
+            "skipped_files": 0
+        }
+    },
+    "virtualenv": {
+        "DownloadCount": 130730478,
+        "DownloadRanking": 53,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 2.3006955591225253,
+            "return_type_coverage": 13.564668769716087,
+            "skipped_files": 0
+        }
+    },
+    "psutil": {
+        "DownloadCount": 129814292,
+        "DownloadRanking": 54,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "docutils": {
+        "DownloadCount": 129424662,
+        "DownloadRanking": 55,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.03577817531305903,
+            "skipped_files": 0
+        }
+    },
+    "pyasn1-modules": {
+        "DownloadCount": 128205104,
+        "DownloadRanking": 56,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "oauthlib": {
+        "DownloadCount": 127963633,
+        "DownloadRanking": 57,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 1.694915254237288,
+            "return_type_coverage": 0.31217481789802287,
+            "skipped_files": 0
+        }
+    },
+    "pygments": {
+        "DownloadCount": 124987197,
+        "DownloadRanking": 58,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0513083632632119,
+            "return_type_coverage": 0.07457121551081282,
+            "skipped_files": 1
+        }
+    },
+    "sqlalchemy": {
+        "DownloadCount": 124645377,
+        "DownloadRanking": 59,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 16.268447656361015,
+            "return_type_coverage": 19.77632675743262,
+            "skipped_files": 0
+        }
+    },
+    "pyparsing": {
+        "DownloadCount": 120943193,
+        "DownloadRanking": 60,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 16.39418710263397,
+            "return_type_coverage": 20.59479553903346,
+            "skipped_files": 0
+        }
+    },
+    "exceptiongroup": {
+        "DownloadCount": 120764333,
+        "DownloadRanking": 61,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 43.64406779661017,
+            "return_type_coverage": 38.88888888888889,
+            "skipped_files": 1
+        }
+    },
+    "pydantic-core": {
+        "DownloadCount": 119258228,
+        "DownloadRanking": 62,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 27.565577542567876,
+            "return_type_coverage": 19.80742778541953,
+            "skipped_files": 0
+        }
+    },
+    "iniconfig": {
+        "DownloadCount": 117316384,
+        "DownloadRanking": 63,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 70.37037037037037,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "aiohttp": {
+        "DownloadCount": 115430885,
+        "DownloadRanking": 64,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 34.73818646232439,
+            "return_type_coverage": 87.51545117428925,
+            "skipped_files": 0
+        }
+    },
+    "jsonschema": {
+        "DownloadCount": 115317778,
+        "DownloadRanking": 65,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 8.317025440313111,
+            "return_type_coverage": 9.228441754916792,
+            "skipped_files": 0
+        }
+    },
+    "isodate": {
+        "DownloadCount": 111996797,
+        "DownloadRanking": 66,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "scipy": {
+        "DownloadCount": 110556381,
+        "DownloadRanking": 67,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 2.0255788209247,
+            "return_type_coverage": 2.747449436191158,
+            "skipped_files": 1
+        }
+    },
+    "pyopenssl": {
+        "DownloadCount": 108421829,
+        "DownloadRanking": 68,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 19.08155186064925,
+            "return_type_coverage": 31.513083048919228,
+            "skipped_files": 0
+        }
+    },
+    "soupsieve": {
+        "DownloadCount": 107839144,
+        "DownloadRanking": 69,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 35.487661574618095,
+            "return_type_coverage": 30.103806228373703,
+            "skipped_files": 0
+        }
+    },
+    "pynacl": {
+        "DownloadCount": 105263183,
+        "DownloadRanking": 70,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 84.5646437994723,
+            "return_type_coverage": 49.03846153846153,
+            "skipped_files": 0
+        }
+    },
+    "tomlkit": {
+        "DownloadCount": 105255243,
+        "DownloadRanking": 71,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 40.78478002378122,
+            "return_type_coverage": 55.536912751677846,
+            "skipped_files": 0
+        }
+    },
+    "beautifulsoup4": {
+        "DownloadCount": 105204736,
+        "DownloadRanking": 72,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "multidict": {
+        "DownloadCount": 104764065,
+        "DownloadRanking": 73,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 44.12171507607192,
+            "return_type_coverage": 68.95734597156398,
+            "skipped_files": 0
+        }
+    },
+    "decorator": {
+        "DownloadCount": 102588465,
+        "DownloadRanking": 74,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "tzdata": {
+        "DownloadCount": 102323143,
+        "DownloadRanking": 75,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "yarl": {
+        "DownloadCount": 101857944,
+        "DownloadRanking": 76,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 12.587412587412588,
+            "return_type_coverage": 11.366906474820144,
+            "skipped_files": 0
+        }
+    },
+    "greenlet": {
+        "DownloadCount": 100590041,
+        "DownloadRanking": 77,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "azure-core": {
+        "DownloadCount": 98816721,
+        "DownloadRanking": 78,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 20.502645502645503,
+            "return_type_coverage": 28.640776699029125,
+            "skipped_files": 1
+        }
+    },
+    "pillow": {
+        "DownloadCount": 98690138,
+        "DownloadRanking": 79,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 53.0888030888031,
+            "return_type_coverage": 90.63022866703848,
+            "skipped_files": 0
+        }
+    },
+    "frozenlist": {
+        "DownloadCount": 98011475,
+        "DownloadRanking": 80,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 28.35820895522388,
+            "return_type_coverage": 77.66990291262135,
+            "skipped_files": 0
+        }
+    },
+    "annotated-types": {
+        "DownloadCount": 97283135,
+        "DownloadRanking": 81,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 80.7017543859649,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "tqdm": {
+        "DownloadCount": 95875332,
+        "DownloadRanking": 82,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.5607476635514018,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "requests-toolbelt": {
+        "DownloadCount": 95529135,
+        "DownloadRanking": 83,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "aiosignal": {
+        "DownloadCount": 95429673,
+        "DownloadRanking": 84,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 53.84615384615385,
+            "return_type_coverage": 83.33333333333334,
+            "skipped_files": 0
+        }
+    },
+    "grpcio": {
+        "DownloadCount": 94675044,
+        "DownloadRanking": 85,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 27.58936755270394,
+            "return_type_coverage": 28.619528619528616,
+            "skipped_files": 4
+        }
+    },
+    "async-timeout": {
+        "DownloadCount": 93621024,
+        "DownloadRanking": 86,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 53.57142857142857,
+            "return_type_coverage": 100.0,
+            "skipped_files": 0
+        }
+    },
+    "deprecated": {
+        "DownloadCount": 90077639,
+        "DownloadRanking": 87,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "openpyxl": {
+        "DownloadCount": 88933342,
+        "DownloadRanking": 88,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "more-itertools": {
+        "DownloadCount": 87331733,
+        "DownloadRanking": 89,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 28.102625298329354,
+            "return_type_coverage": 21.786310517529213,
+            "skipped_files": 0
+        }
+    },
+    "et-xmlfile": {
+        "DownloadCount": 87280642,
+        "DownloadRanking": 90,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "distlib": {
+        "DownloadCount": 86770002,
+        "DownloadRanking": 91,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "proto-plus": {
+        "DownloadCount": 85757406,
+        "DownloadRanking": 92,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 5.283018867924529,
+            "return_type_coverage": 5.221932114882506,
+            "skipped_files": 0
+        }
+    },
+    "lxml": {
+        "DownloadCount": 85020769,
+        "DownloadRanking": 93,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "asn1crypto": {
+        "DownloadCount": 84918243,
+        "DownloadRanking": 94,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "werkzeug": {
+        "DownloadCount": 82663660,
+        "DownloadRanking": 95,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 36.116152450090745,
+            "return_type_coverage": 48.8430795119899,
+            "skipped_files": 0
+        }
+    },
+    "bcrypt": {
+        "DownloadCount": 81021868,
+        "DownloadRanking": 96,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 27.500000000000004,
+            "return_type_coverage": 12.903225806451612,
+            "skipped_files": 0
+        }
+    },
+    "websocket-client": {
+        "DownloadCount": 80983490,
+        "DownloadRanking": 97,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 41.16379310344828,
+            "return_type_coverage": 44.15094339622642,
+            "skipped_files": 0
+        }
+    },
+    "google-cloud-storage": {
+        "DownloadCount": 80692232,
+        "DownloadRanking": 98,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
+            "skipped_files": 0
+        }
+    },
+    "coverage": {
+        "DownloadCount": 80561659,
+        "DownloadRanking": 99,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 41.60626268483619,
+            "return_type_coverage": 93.75830013280213,
+            "skipped_files": 0
+        }
+    },
+    "h11": {
+        "DownloadCount": 76298517,
+        "DownloadRanking": 100,
+        "HasTypeShed": false,
+        "CoverageData": {
+            "parameter_coverage": 57.08154506437768,
+            "return_type_coverage": 94.58128078817734,
+            "skipped_files": 0
+        }
+    }
+}
