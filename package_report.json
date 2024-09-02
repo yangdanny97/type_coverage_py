@@ -14,8 +14,8 @@
         "DownloadRanking": 2,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 98.00995024875621,
-            "return_type_coverage": 98.95968790637191,
+            "parameter_coverage": 98.8558352402746,
+            "return_type_coverage": 99.73821989528795,
             "skipped_files": 0
         }
     },
@@ -24,8 +24,8 @@
         "DownloadRanking": 3,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 38.33588565594691,
-            "return_type_coverage": 33.835016193560676,
+            "parameter_coverage": 33.778944855574125,
+            "return_type_coverage": 26.256499133448873,
             "skipped_files": 0
         }
     },
@@ -34,8 +34,8 @@
         "DownloadRanking": 4,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 0.591715976331361,
-            "return_type_coverage": 0.14992503748125938,
+            "parameter_coverage": 0.7233273056057866,
+            "return_type_coverage": 0.18315018315018314,
             "skipped_files": 0
         }
     },
@@ -64,8 +64,8 @@
         "DownloadRanking": 7,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 85.24590163934425,
-            "return_type_coverage": 73.44632768361582,
+            "parameter_coverage": 81.63265306122449,
+            "return_type_coverage": 66.15384615384615,
             "skipped_files": 0
         }
     },
@@ -74,8 +74,8 @@
         "DownloadRanking": 8,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 77.94117647058823,
-            "return_type_coverage": 72.25806451612902,
+            "parameter_coverage": 72.72727272727273,
+            "return_type_coverage": 72.48322147651007,
             "skipped_files": 0
         }
     },
@@ -84,8 +84,8 @@
         "DownloadRanking": 9,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 19.27710843373494,
-            "return_type_coverage": 11.751152073732719,
+            "parameter_coverage": 18.01801801801802,
+            "return_type_coverage": 7.630522088353414,
             "skipped_files": 0
         }
     },
@@ -104,8 +104,8 @@
         "DownloadRanking": 11,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 37.27915194346289,
-            "return_type_coverage": 45.062836624775585,
+            "parameter_coverage": 33.89121338912134,
+            "return_type_coverage": 39.082969432314414,
             "skipped_files": 0
         }
     },
@@ -124,7 +124,7 @@
         "DownloadRanking": 13,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 0.3500583430571762,
+            "parameter_coverage": 0.594059405940594,
             "return_type_coverage": 0.0,
             "skipped_files": 0
         }
@@ -144,8 +144,8 @@
         "DownloadRanking": 15,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 5.0,
-            "return_type_coverage": 1.89873417721519,
+            "parameter_coverage": 3.7735849056603774,
+            "return_type_coverage": 2.6548672566371683,
             "skipped_files": 0
         }
     },
@@ -154,8 +154,8 @@
         "DownloadRanking": 16,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 36.38351030605872,
-            "return_type_coverage": 32.3137492428831,
+            "parameter_coverage": 27.810945273631845,
+            "return_type_coverage": 24.752990119604785,
             "skipped_files": 0
         }
     },
@@ -174,8 +174,8 @@
         "DownloadRanking": 18,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 61.060965954077595,
-            "return_type_coverage": 59.435724962630786,
+            "parameter_coverage": 62.50672404518558,
+            "return_type_coverage": 61.649550706033374,
             "skipped_files": 0
         }
     },
@@ -184,8 +184,8 @@
         "DownloadRanking": 19,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 59.60037051740108,
-            "return_type_coverage": 39.70950037850113,
+            "parameter_coverage": 44.23622941510506,
+            "return_type_coverage": 27.77389005520566,
             "skipped_files": 0
         }
     },
@@ -194,8 +194,8 @@
         "DownloadRanking": 20,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 12.968299711815561,
-            "return_type_coverage": 14.338235294117647,
+            "parameter_coverage": 13.65079365079365,
+            "return_type_coverage": 13.438735177865613,
             "skipped_files": 0
         }
     },
@@ -204,8 +204,8 @@
         "DownloadRanking": 21,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 9.523809523809524,
-            "return_type_coverage": 11.03896103896104,
+            "parameter_coverage": 9.101516919486581,
+            "return_type_coverage": 12.444444444444445,
             "skipped_files": 0
         }
     },
@@ -214,7 +214,7 @@
         "DownloadRanking": 22,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 0.21398002853067047,
+            "parameter_coverage": 0.3105590062111801,
             "return_type_coverage": 0.0,
             "skipped_files": 12
         }
@@ -224,8 +224,8 @@
         "DownloadRanking": 23,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 64.98740554156171,
-            "return_type_coverage": 70.17045454545455,
+            "parameter_coverage": 60.57971014492753,
+            "return_type_coverage": 64.02877697841727,
             "skipped_files": 0
         }
     },
@@ -244,8 +244,8 @@
         "DownloadRanking": 25,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 28.30779036416838,
-            "return_type_coverage": 21.207855282607166,
+            "parameter_coverage": 21.915751205247766,
+            "return_type_coverage": 14.587305277842363,
             "skipped_files": 0
         }
     },
@@ -254,8 +254,8 @@
         "DownloadRanking": 26,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 29.29936305732484,
-            "return_type_coverage": 21.311475409836063,
+            "parameter_coverage": 22.727272727272727,
+            "return_type_coverage": 17.872340425531917,
             "skipped_files": 0
         }
     },
@@ -264,8 +264,8 @@
         "DownloadRanking": 27,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 11.858190709046456,
-            "return_type_coverage": 5.973025048169557,
+            "parameter_coverage": 12.922465208747516,
+            "return_type_coverage": 4.40771349862259,
             "skipped_files": 0
         }
     },
@@ -284,8 +284,8 @@
         "DownloadRanking": 29,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 30.146231721034873,
-            "return_type_coverage": 10.460652591170826,
+            "parameter_coverage": 27.557755775577558,
+            "return_type_coverage": 10.054347826086957,
             "skipped_files": 0
         }
     },
@@ -294,8 +294,8 @@
         "DownloadRanking": 30,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 71.55330882352942,
-            "return_type_coverage": 53.596330275229356,
+            "parameter_coverage": 64.21605401350338,
+            "return_type_coverage": 42.64172018989109,
             "skipped_files": 0
         }
     },
@@ -314,8 +314,8 @@
         "DownloadRanking": 32,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 3.1578947368421053,
-            "return_type_coverage": 0.7633587786259541,
+            "parameter_coverage": 2.1739130434782608,
+            "return_type_coverage": 0.7936507936507936,
             "skipped_files": 0
         }
     },
@@ -324,8 +324,8 @@
         "DownloadRanking": 33,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 50.9840098400984,
-            "return_type_coverage": 40.15873015873016,
+            "parameter_coverage": 40.25157232704403,
+            "return_type_coverage": 33.288948069241016,
             "skipped_files": 0
         }
     },
@@ -354,8 +354,8 @@
         "DownloadRanking": 36,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 5.503978779840849,
-            "return_type_coverage": 9.038238702201621,
+            "parameter_coverage": 2.5669642857142856,
+            "return_type_coverage": 4.056437389770723,
             "skipped_files": 0
         }
     },
@@ -384,8 +384,8 @@
         "DownloadRanking": 39,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 47.75413711583924,
-            "return_type_coverage": 30.287206266318538,
+            "parameter_coverage": 31.456953642384107,
+            "return_type_coverage": 19.81132075471698,
             "skipped_files": 0
         }
     },
@@ -394,8 +394,8 @@
         "DownloadRanking": 40,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 62.6410835214447,
-            "return_type_coverage": 48.719676549865234,
+            "parameter_coverage": 56.460454189506656,
+            "return_type_coverage": 42.12421242124213,
             "skipped_files": 0
         }
     },
@@ -404,8 +404,8 @@
         "DownloadRanking": 41,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 59.32203389830508,
-            "return_type_coverage": 47.5,
+            "parameter_coverage": 57.446808510638306,
+            "return_type_coverage": 45.76271186440678,
             "skipped_files": 0
         }
     },
@@ -424,8 +424,8 @@
         "DownloadRanking": 43,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 0.1448016217781639,
-            "return_type_coverage": 0.1687051876845213,
+            "parameter_coverage": 0.0,
+            "return_type_coverage": 0.0,
             "skipped_files": 0
         }
     },
@@ -434,8 +434,8 @@
         "DownloadRanking": 44,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 0.11223344556677892,
-            "return_type_coverage": 1.2455516014234875,
+            "parameter_coverage": 0.40650406504065045,
+            "return_type_coverage": 0.5671077504725899,
             "skipped_files": 0
         }
     },
@@ -454,8 +454,8 @@
         "DownloadRanking": 46,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 0.2802690582959641,
-            "return_type_coverage": 0.44419766796224325,
+            "parameter_coverage": 0.2757352941176471,
+            "return_type_coverage": 0.3341687552213868,
             "skipped_files": 0
         }
     },
@@ -484,8 +484,8 @@
         "DownloadRanking": 49,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 61.5,
-            "return_type_coverage": 58.901098901098905,
+            "parameter_coverage": 74.6606334841629,
+            "return_type_coverage": 81.78137651821862,
             "skipped_files": 0
         }
     },
@@ -494,8 +494,8 @@
         "DownloadRanking": 50,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 76.67241379310344,
-            "return_type_coverage": 76.69421487603306,
+            "parameter_coverage": 78.4301212507977,
+            "return_type_coverage": 79.61005402865868,
             "skipped_files": 0
         }
     },
@@ -514,8 +514,8 @@
         "DownloadRanking": 52,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 1.6624040920716114,
-            "return_type_coverage": 1.2742382271468145,
+            "parameter_coverage": 1.5593762495002,
+            "return_type_coverage": 1.1764705882352942,
             "skipped_files": 0
         }
     },
@@ -524,8 +524,8 @@
         "DownloadRanking": 53,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 3.182827535159141,
-            "return_type_coverage": 13.564668769716087,
+            "parameter_coverage": 3.1093279839518555,
+            "return_type_coverage": 4.503105590062112,
             "skipped_files": 0
         }
     },
@@ -545,7 +545,7 @@
         "HasTypeShed": true,
         "CoverageData": {
             "parameter_coverage": 0.0,
-            "return_type_coverage": 0.03577817531305903,
+            "return_type_coverage": 0.0,
             "skipped_files": 0
         }
     },
@@ -564,8 +564,8 @@
         "DownloadRanking": 57,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 3.1536113936927768,
-            "return_type_coverage": 0.31217481789802287,
+            "parameter_coverage": 3.858520900321544,
+            "return_type_coverage": 0.4491017964071856,
             "skipped_files": 0
         }
     },
@@ -574,8 +574,8 @@
         "DownloadRanking": 58,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 0.0727802037845706,
-            "return_type_coverage": 0.07457121551081282,
+            "parameter_coverage": 0.11299435028248588,
+            "return_type_coverage": 0.12610340479192939,
             "skipped_files": 1
         }
     },
@@ -584,8 +584,8 @@
         "DownloadRanking": 59,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 32.139467711986796,
-            "return_type_coverage": 19.77632675743262,
+            "parameter_coverage": 24.274061990212072,
+            "return_type_coverage": 14.10009624639076,
             "skipped_files": 0
         }
     },
@@ -594,8 +594,8 @@
         "DownloadRanking": 60,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 28.731045490822027,
-            "return_type_coverage": 20.59479553903346,
+            "parameter_coverage": 28.84097035040431,
+            "return_type_coverage": 18.036529680365295,
             "skipped_files": 0
         }
     },
@@ -604,8 +604,8 @@
         "DownloadRanking": 61,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 68.96551724137932,
-            "return_type_coverage": 36.627906976744185,
+            "parameter_coverage": 61.165048543689316,
+            "return_type_coverage": 30.53435114503817,
             "skipped_files": 0
         }
     },
@@ -614,8 +614,8 @@
         "DownloadRanking": 62,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 33.6,
-            "return_type_coverage": 19.934944237918213,
+            "parameter_coverage": 33.25143325143325,
+            "return_type_coverage": 20.346598202824133,
             "skipped_files": 0
         }
     },
@@ -634,8 +634,8 @@
         "DownloadRanking": 64,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 54.91706161137441,
-            "return_type_coverage": 87.68177929854576,
+            "parameter_coverage": 45.675020210185934,
+            "return_type_coverage": 90.36363636363637,
             "skipped_files": 0
         }
     },
@@ -644,8 +644,8 @@
         "DownloadRanking": 65,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 15.59633027522936,
-            "return_type_coverage": 9.228441754916792,
+            "parameter_coverage": 14.130434782608695,
+            "return_type_coverage": 8.934707903780069,
             "skipped_files": 0
         }
     },
@@ -664,8 +664,8 @@
         "DownloadRanking": 67,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 3.091840468349799,
-            "return_type_coverage": 2.752460809332847,
+            "parameter_coverage": 3.495870573594298,
+            "return_type_coverage": 3.037216597747041,
             "skipped_files": 0
         }
     },
@@ -674,8 +674,8 @@
         "DownloadRanking": 68,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 44.13919413919414,
-            "return_type_coverage": 31.513083048919228,
+            "parameter_coverage": 43.333333333333336,
+            "return_type_coverage": 29.945799457994582,
             "skipped_files": 0
         }
     },
@@ -684,8 +684,8 @@
         "DownloadRanking": 69,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 92.35474006116208,
-            "return_type_coverage": 30.103806228373703,
+            "parameter_coverage": 90.27237354085604,
+            "return_type_coverage": 25.04780114722753,
             "skipped_files": 0
         }
     },
@@ -694,8 +694,8 @@
         "DownloadRanking": 70,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 98.14241486068111,
-            "return_type_coverage": 49.03846153846153,
+            "parameter_coverage": 97.84172661870504,
+            "return_type_coverage": 45.294117647058826,
             "skipped_files": 0
         }
     },
@@ -704,8 +704,8 @@
         "DownloadRanking": 71,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 69.58333333333333,
-            "return_type_coverage": 55.536912751677846,
+            "parameter_coverage": 52.65700483091788,
+            "return_type_coverage": 40.65934065934066,
             "skipped_files": 0
         }
     },
@@ -724,8 +724,8 @@
         "DownloadRanking": 73,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 66.66666666666666,
-            "return_type_coverage": 68.95734597156398,
+            "parameter_coverage": 69.1304347826087,
+            "return_type_coverage": 72.3076923076923,
             "skipped_files": 0
         }
     },
@@ -754,8 +754,8 @@
         "DownloadRanking": 76,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 26.69683257918552,
-            "return_type_coverage": 12.55539143279173,
+            "parameter_coverage": 22.705314009661837,
+            "return_type_coverage": 11.455108359133128,
             "skipped_files": 0
         }
     },
@@ -774,8 +774,8 @@
         "DownloadRanking": 78,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 33.23720259552992,
-            "return_type_coverage": 28.640776699029125,
+            "parameter_coverage": 27.036599763872495,
+            "return_type_coverage": 24.39281942977825,
             "skipped_files": 1
         }
     },
@@ -784,8 +784,8 @@
         "DownloadRanking": 79,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 81.78178178178179,
-            "return_type_coverage": 90.74333800841514,
+            "parameter_coverage": 82.94573643410853,
+            "return_type_coverage": 92.39858211894446,
             "skipped_files": 0
         }
     },
@@ -794,8 +794,8 @@
         "DownloadRanking": 80,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 86.04651162790698,
-            "return_type_coverage": 89.8876404494382,
+            "parameter_coverage": 84.61538461538461,
+            "return_type_coverage": 89.53488372093024,
             "skipped_files": 0
         }
     },
@@ -814,7 +814,7 @@
         "DownloadRanking": 82,
         "HasTypeShed": true,
         "CoverageData": {
-            "parameter_coverage": 0.8522727272727272,
+            "parameter_coverage": 1.3824884792626728,
             "return_type_coverage": 0.0,
             "skipped_files": 0
         }
@@ -844,8 +844,8 @@
         "DownloadRanking": 85,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 39.17570498915401,
-            "return_type_coverage": 28.619528619528616,
+            "parameter_coverage": 30.579216354344123,
+            "return_type_coverage": 23.329129886506937,
             "skipped_files": 4
         }
     },
@@ -884,8 +884,8 @@
         "DownloadRanking": 89,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 75.72347266881029,
-            "return_type_coverage": 25.120307988450435,
+            "parameter_coverage": 85.52971576227391,
+            "return_type_coverage": 26.626323751891075,
             "skipped_files": 0
         }
     },
@@ -914,8 +914,8 @@
         "DownloadRanking": 92,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 10.144927536231885,
-            "return_type_coverage": 5.221932114882506,
+            "parameter_coverage": 12.987012987012985,
+            "return_type_coverage": 3.5143769968051117,
             "skipped_files": 0
         }
     },
@@ -944,8 +944,8 @@
         "DownloadRanking": 95,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 65.4647028948705,
-            "return_type_coverage": 51.94444444444445,
+            "parameter_coverage": 65.2127659574468,
+            "return_type_coverage": 45.06024096385542,
             "skipped_files": 0
         }
     },
@@ -964,8 +964,8 @@
         "DownloadRanking": 97,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 68.70503597122301,
-            "return_type_coverage": 44.15094339622642,
+            "parameter_coverage": 75.75757575757575,
+            "return_type_coverage": 47.91666666666667,
             "skipped_files": 0
         }
     },
@@ -984,8 +984,8 @@
         "DownloadRanking": 99,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 90.87989723827874,
-            "return_type_coverage": 93.73611728120835,
+            "parameter_coverage": 89.12442396313364,
+            "return_type_coverage": 94.2745969983324,
             "skipped_files": 0
         }
     },
@@ -994,8 +994,8 @@
         "DownloadRanking": 100,
         "HasTypeShed": false,
         "CoverageData": {
-            "parameter_coverage": 89.1891891891892,
-            "return_type_coverage": 94.58128078817734,
+            "parameter_coverage": 88.67924528301887,
+            "return_type_coverage": 96.25,
             "skipped_files": 0
         }
     }
