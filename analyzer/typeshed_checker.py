@@ -15,3 +15,13 @@ def check_typeshed(package_name: str) -> bool:
     stubs_path = os.path.join(TYPESHED_DIR, 'stubs', package_name)
     
     return os.path.exists(stubs_path)
+
+def find_stub_files(package_name: str) -> List[str]:
+    """Finds the .pyi stub files for the given package in the typeshed directory."""
+    typeshed_path = os.path.join(TYPESHED_DIR, 'stubs', package_name)
+    stub_files = []
+    for root, _, files in os.walk(typeshed_path):
+        for file in files:
+            if file.endswith('.pyi'):
+                stub_files.append(os.path.join(root, file))
+    return stub_files
