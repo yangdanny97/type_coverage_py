@@ -2,9 +2,9 @@ from typing import Dict
 
 HTML_REPORT_FILE = "index.html"
 
-def generate_report(package_data: Dict[str, float], package_name: str) -> None:
-    coverage_data = package_data["CoverageData"]
+def generate_report(package_data: Dict[str, Dict[str, float]], package_name: str) -> None:
     """Generates a report of the coverage data."""
+    coverage_data = package_data["CoverageData"]
     print(f"Coverage Report for {package_name}:")
     print(f"Has typeshed stubs: {package_data['HasTypeShed']}")
     print(f"Parameter Type Coverage: {coverage_data['parameter_coverage']:.2f}%")
@@ -13,7 +13,7 @@ def generate_report(package_data: Dict[str, float], package_name: str) -> None:
     print(f"Return Type Coverage With Stubs: {coverage_data['return_type_coverage_with_stubs']:.2f}%")
     print("-" * 40)
 
-def get_color(percentage):
+def get_color(percentage: float) -> str:
     """Calculate a subtle but noticeable color gradient from light red (0%) to light green (100%)."""
     if percentage < 50:
         # Transition from light red to light yellow for 0% to 50%
@@ -27,7 +27,8 @@ def get_color(percentage):
     blue = 200  # A small amount of blue for a softer, more pleasant color
     return f"rgb({red},{green},{blue})"
 
-def generate_report_html(package_report):
+def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]]) -> None:
+    """Generates an HTML report of the package coverage data."""
     html_content = """
     <!DOCTYPE html>
     <html lang="en">
@@ -111,16 +112,17 @@ def generate_report_html(package_report):
     """
 
     for package_name, details in package_report.items():
-        parameter_coverage = round(details['CoverageData']['parameter_coverage'], 2)
-        return_coverage = round(details['CoverageData']['return_type_coverage'], 2)
-        parameter_coverage_with_stubs = round(details['CoverageData'].get('parameter_coverage_with_stubs', 0), 2)
-        return_coverage_with_stubs = round(details['CoverageData'].get('return_type_coverage_with_stubs', 0), 2)
+        coverage_data = details['CoverageData']
+        parameter_coverage = round(coverage_data['parameter_coverage'], 2)
+        return_coverage = round(coverage_data['return_type_coverage'], 2)
+        parameter_coverage_with_stubs = round(coverage_data.get('parameter_coverage_with_stubs', 0), 2)
+        return_coverage_with_stubs = round(coverage_data.get('return_type_coverage_with_stubs', 0), 2)
         
         param_color = get_color(parameter_coverage)
         return_color = get_color(return_coverage)
         param_stub_color = get_color(parameter_coverage_with_stubs)
         return_stub_color = get_color(return_coverage_with_stubs)
-        skipped_files = f"{details['CoverageData']['skipped_files']}"
+        skipped_files = f"{coverage_data['skipped_files']}"
 
         html_content += f"""
             <tr>
