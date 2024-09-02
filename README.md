@@ -26,17 +26,17 @@ This section outlines how the script analyzes Python packages, checks for typesh
   - The script analyzes function definitions in the extracted files and calculates the percentage of function parameters that have type annotations.
   - **Handling `.pyi` files**: If a function is defined in a `.pyi` file, it takes precedence over any corresponding function in a `.py` file. The parameter counts from `.pyi` files will overwrite those from `.py` files for the same function.
   - The formula used:
-  \[
+  $$\[
   \text{Parameter Coverage} = \left( \frac{\text{Number of Parameters with Type Annotations}}{\text{Total Number of Parameters}} \right) \times 100
-  \]
+  \]$$
 
 - **Return Type Coverage**:
   - The script calculates the percentage of functions that have return type annotations.
   - **Handling `.pyi` files**: Similar to parameter coverage, if a function is defined in a `.pyi` file, the return type annotations from the `.pyi` file will overwrite those from any corresponding `.py` file.
   - The formula used:
-  \[
+  $$\[
   \text{Return Type Coverage} = \left( \frac{\text{Number of Functions with Return Type Annotations}}{\text{Total Number of Functions}} \right) \times 100
-  \]
+  \]$$
 
 - **Skipped Files**:
   - Files that cannot be processed due to syntax or encoding errors are skipped, and the number of skipped files is recorded.
