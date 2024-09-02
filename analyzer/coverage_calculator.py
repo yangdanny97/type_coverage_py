@@ -44,7 +44,7 @@ def calculate_parameter_coverage(files: List[str]) -> Tuple[float, int]:
     annotated_params = sum(counts[1] for counts in function_param_counts.values())
     
     if total_params == 0:
-        return 100.0, skipped_files
+        return -1.0, skipped_files
 
     coverage: float = (annotated_params / total_params) * 100.0
 
@@ -88,7 +88,7 @@ def calculate_return_type_coverage(files: List[str]) -> Tuple[float, int]:
     annotated_functions = sum(counts[1] for counts in function_return_counts.values())
 
     if total_functions == 0:
-        return 100.0, skipped_files
+        return -1.0, skipped_files
 
     coverage: float = (annotated_functions / total_functions) * 100.0
 

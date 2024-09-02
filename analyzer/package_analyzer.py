@@ -52,7 +52,12 @@ def download_package(package_name: str, temp_dir: str) -> str:
 
 def extract_files(package_name: str, temp_dir: str) -> List[str]:
     """Extracts Python files from the downloaded package directory."""
-    package_dir = download_package(package_name, temp_dir)
+    try:
+        package_dir = download_package(package_name, temp_dir)
+    except ValueError as e:
+        print(f"Warning: {e}")
+        return []
+    
     python_files: List[str] = []
     
     for root, _, files in os.walk(package_dir):
