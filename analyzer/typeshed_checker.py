@@ -1,6 +1,7 @@
 # typeshed_checker.py
 
 import os
+from typing import List
 
 # Get the absolute path to the project root directory
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
@@ -25,3 +26,24 @@ def find_stub_files(package_name: str) -> List[str]:
             if file.endswith('.pyi'):
                 stub_files.append(os.path.join(root, file))
     return stub_files
+
+def merge_files_with_stubs(package_files: List[str], typeshed_stubs: List[str]) -> List[str]:
+    """Merge package files with typeshed stubs, preferring .pyi files from the package itself."""
+    merged_files = []
+    typeshed_stub_dict = {os.path.basename(stub): stub for stub in typeshed_stubs}
+
+    for file in package_files:
+        base_name = os.path.basename(file)
+        if base_name.endswith('.pyi'):
+            # If a .pyi file from the package exists, prefer it over typeshed
+            if base_name in typeshed_stub_dict:
+                typeshed_stub_dict.pop(base_name)
+            merged_files.append(file)
+        elif base_name.endswith('.py'):
+            # Include all .py files from the package
+            merged_files.append(file)
+
+    # Add remaining typeshed stubs (those that were not overridden by package stubs)
+    merged_files.extend(typeshed_stub_dict.values())
+    
+    return merged_files

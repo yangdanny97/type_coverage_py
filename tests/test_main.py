@@ -46,7 +46,15 @@ def test_main(monkeypatch):
             {"download_count": 500, "project": "package_b"},
         ]
 
+    def mock_generate_report(*args, **kwargs):
+        print("generate_report called with args:", args, "and kwargs:", kwargs)
+    
+    def mock_generate_report_html(*args, **kwargs):
+        print("generate_report_html called with args:", args, "and kwargs:", kwargs)
+
     monkeypatch.setattr("main.load_and_sort_top_packages", mock_load_and_sort_top_packages)
+    monkeypatch.setattr("main.generate_report", mock_generate_report)
+    monkeypatch.setattr("main.generate_report_html", mock_generate_report_html)
     monkeypatch.setattr("requests.get", mock_get)
 
     with tempfile.TemporaryDirectory() as temp_dir:

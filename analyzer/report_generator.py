@@ -9,6 +9,8 @@ def generate_report(package_data: Dict[str, float], package_name: str) -> None:
     print(f"Has typeshed stubs: {package_data['HasTypeShed']}")
     print(f"Parameter Type Coverage: {coverage_data['parameter_coverage']:.2f}%")
     print(f"Return Type Coverage: {coverage_data['return_type_coverage']:.2f}%")
+    print(f"Parameter Type Coverage With Stubs: {coverage_data['parameter_coverage_with_stubs']:.2f}%")
+    print(f"Return Type Coverage With Stubs: {coverage_data['return_type_coverage_with_stubs']:.2f}%")
     print("-" * 40)
 
 def get_color(percentage):
@@ -103,6 +105,8 @@ def generate_report_html(package_report):
                 <th>Has Typeshed</th>
                 <th>Parameter Type Coverage</th>
                 <th>Return Type Coverage</th>
+                <th>Parameter Coverage with Typeshed</th>
+                <th>Return Type Coverage with Typeshed</th>
                 <th>Skipped Files</th>
             </tr>
     """
@@ -110,8 +114,13 @@ def generate_report_html(package_report):
     for package_name, details in package_report.items():
         parameter_coverage = round(details['CoverageData']['parameter_coverage'], 2)
         return_coverage = round(details['CoverageData']['return_type_coverage'], 2)
+        parameter_coverage_with_stubs = round(details['CoverageData'].get('parameter_coverage_with_stubs', 0), 2)
+        return_coverage_with_stubs = round(details['CoverageData'].get('return_type_coverage_with_stubs', 0), 2)
+        
         param_color = get_color(parameter_coverage)
         return_color = get_color(return_coverage)
+        param_stub_color = get_color(parameter_coverage_with_stubs)
+        return_stub_color = get_color(return_coverage_with_stubs)
         skipped_files = f"{details['CoverageData']['skipped_files']}"
 
         html_content += f"""
@@ -122,6 +131,8 @@ def generate_report_html(package_report):
                 <td>{'Yes' if details['HasTypeShed'] else 'No'}</td>
                 <td class="coverage-cell" style="background-color: {param_color};">{parameter_coverage:.2f}%</td>
                 <td class="coverage-cell" style="background-color: {return_color};">{return_coverage:.2f}%</td>
+                <td class="coverage-cell" style="background-color: {param_stub_color};">{parameter_coverage_with_stubs:.2f}%</td>
+                <td class="coverage-cell" style="background-color: {return_stub_color};">{return_coverage_with_stubs:.2f}%</td>
                 <td class="skipped-cell">{skipped_files}</td>
             </tr>
         """
