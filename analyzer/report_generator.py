@@ -91,8 +91,8 @@ def generate_report_html(package_report):
         <h1>Package Type Coverage Report</h1>
         <h1>Package Type Coverage Report</h1>
         <p class="github-link">See code and methodology here: 
-            <a href="https://github.com/lolpack/type_coverage_py/tree/main" target="_blank">
-                https://github.com/lolpack/type_coverage_py/tree/main
+            <a href="https://github.com/lolpack/type_coverage_py" target="_blank">
+                https://github.com/lolpack/type_coverage_py
             </a>
         </p>
         <table>
