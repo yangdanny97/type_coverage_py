@@ -4,7 +4,7 @@ import shutil
 import json
 import sys
 from analyzer.package_analyzer import download_package, extract_files
-from analyzer.typeshed_checker import check_typeshed
+from analyzer.typeshed_checker import check_typeshed, find_stub_files, merge_files_with_stubs
 from analyzer.coverage_calculator import calculate_overall_coverage
 from analyzer.report_generator import generate_report, generate_report_html
 
@@ -48,13 +48,27 @@ def main(top_n):
             # Check if typeshed exists
             typeshed_exists = check_typeshed(package_name)
             package_report[package_name]["HasTypeShed"] = typeshed_exists
-            
-            if typeshed_exists:
-                print(f"Typeshed exists for {package_name}. Including it in analysis.")
-            
+
             # Calculate coverage
             coverage_data = calculate_overall_coverage(files)
             package_report[package_name]["CoverageData"] = coverage_data
+            
+            if typeshed_exists:
+                print(f"Typeshed exists for {package_name}. Including it in analysis.")
+                # prefer inline .pyi over typestubs
+                typestub_files = find_stub_files(package_name)
+                merged_files = merge_files_with_stubs(files, typestub_files)
+                files # contains all file for package
+                find_stub_files(package_name) # stubs from typeshed
+
+                coverage_data_with_stubs = calculate_overall_coverage(merged_files)
+                package_report[package_name]["CoverageData"]["parameter_coverage_with_stubs"] = coverage_data_with_stubs["parameter_coverage"]
+                package_report[package_name]["CoverageData"]["return_type_coverage_with_stubs"] = coverage_data_with_stubs["return_type_coverage"]
+            else:
+                package_report[package_name]["CoverageData"]["parameter_coverage_with_stubs"] = coverage_data["parameter_coverage"]
+                package_report[package_name]["CoverageData"]["return_type_coverage_with_stubs"] = coverage_data["return_type_coverage"]
+            
+
             
             # Generate report
             generate_report(package_report[package_name], package_name)
