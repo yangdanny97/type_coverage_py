@@ -93,3 +93,23 @@ def test_class_methods():
     assert param_coverage == 100.0  # All parameters annotated
     assert return_coverage == pytest.approx(66.67, rel=1e-2)  # 2 out of 3 methods annotated with return type
     assert skipped_files == 0
+
+def test_order_independence_for_pyi_and_py():
+    # Define the file paths for the .py and .pyi files
+    py_file = "tests/test_files/embedded_pyi.py"
+    pyi_file = "tests/test_files/embedded_pyi.pyi"
+    
+    # Test with .py first, then .pyi
+    files_py_first = [py_file, pyi_file]
+    param_coverage_py_first, skipped_files_py_first = calculate_parameter_coverage(files_py_first)
+    return_coverage_py_first, _ = calculate_return_type_coverage(files_py_first)
+    
+    # Test with .pyi first, then .py
+    files_pyi_first = [pyi_file, py_file]
+    param_coverage_pyi_first, skipped_files_pyi_first = calculate_parameter_coverage(files_pyi_first)
+    return_coverage_pyi_first, _ = calculate_return_type_coverage(files_pyi_first)
+    
+    # Assert that both orders produce the same results
+    assert param_coverage_py_first == param_coverage_pyi_first, "Parameter coverage should be the same regardless of file order"
+    assert return_coverage_py_first == return_coverage_pyi_first, "Return type coverage should be the same regardless of file order"
+    assert skipped_files_py_first == skipped_files_pyi_first, "Skipped files should be the same regardless of file order"
