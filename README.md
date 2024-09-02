@@ -4,6 +4,8 @@ Calculate the Type Coverage for top Python packages.
 
 Take the top pypi packages pulled from this project [https://github.com/hugovk/top-pypi-packages](https://github.com/hugovk/top-pypi-packages)
 
+View report here: [https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/main/index.html](https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/main/index.html)
+
 ## Methodology
 
 This section outlines how the script analyzes Python packages, checks for typeshed availability, and calculates type coverage. The process involves three key steps: package extraction, typeshed check, and type coverage calculation.
@@ -22,13 +24,15 @@ This section outlines how the script analyzes Python packages, checks for typesh
 
 - **Parameter Coverage**: 
   - The script analyzes function definitions in the extracted files and calculates the percentage of function parameters that have type annotations.
+  - **Handling `.pyi` files**: If a function is defined in a `.pyi` file, it takes precedence over any corresponding function in a `.py` file. The parameter counts from `.pyi` files will overwrite those from `.py` files for the same function.
   - The formula used:
   \[
   \text{Parameter Coverage} = \left( \frac{\text{Number of Parameters with Type Annotations}}{\text{Total Number of Parameters}} \right) \times 100
   \]
 
 - **Return Type Coverage**:
-  - Similarly, the script calculates the percentage of functions that have return type annotations.
+  - The script calculates the percentage of functions that have return type annotations.
+  - **Handling `.pyi` files**: Similar to parameter coverage, if a function is defined in a `.pyi` file, the return type annotations from the `.pyi` file will overwrite those from any corresponding `.py` file.
   - The formula used:
   \[
   \text{Return Type Coverage} = \left( \frac{\text{Number of Functions with Return Type Annotations}}{\text{Total Number of Functions}} \right) \times 100
@@ -37,7 +41,11 @@ This section outlines how the script analyzes Python packages, checks for typesh
 - **Skipped Files**:
   - Files that cannot be processed due to syntax or encoding errors are skipped, and the number of skipped files is recorded.
 
-This methodology ensures accurate and detailed analysis of type coverage for popular Python packages.
+- **Overall Coverage**:
+  - The script calculates and returns the overall coverage, combining parameter coverage and return type coverage. The maximum number of skipped files between the parameter and return type calculations is recorded.
+
+This methodology ensures an accurate and detailed analysis of type coverage for popular Python packages, taking into account the presence of type stub files (`.pyi`) which are prioritized over implementation files (`.py`) for the same functions.
+
 
 ## Usage
 
