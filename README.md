@@ -19,6 +19,7 @@ This section outlines how the script analyzes Python packages, checks for typesh
 
 - **Typeshed Directory**: The script checks if a corresponding stub exists in the `typeshed` repository, which contains type stubs for standard library modules and popular third-party packages.
 - **Existence Check**: If a typeshed stub exists, it is recorded as `HasTypeShed: Yes`; otherwise, it is marked as `HasTypeShed: No`.
+- **Typeshed Merge**: Pull available typestubs from typeshed with the same package name. If a local `.pyi` file exists, prefer it over typeshed. 
 
 ### **Type Coverage Calculation**
 
