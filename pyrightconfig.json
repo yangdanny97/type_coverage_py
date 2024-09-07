@@ -1,6 +1,6 @@
 {
     "include": [
-        "analyzer"
+        "."
     ],
     "exclude": [
         "**/node_modules",

@@ -1,10 +1,10 @@
 import tempfile
-import os
 import shutil
 import json
 import sys
 import argparse
-from analyzer.package_analyzer import download_package, extract_files
+from typing import Optional, Any, Dict, List
+from analyzer.package_analyzer import extract_files
 from analyzer.typeshed_checker import check_typeshed, find_stub_files, merge_files_with_stubs
 from analyzer.coverage_calculator import calculate_overall_coverage
 from analyzer.report_generator import generate_report, generate_report_html
@@ -12,7 +12,7 @@ from analyzer.report_generator import generate_report, generate_report_html
 JSON_REPORT_FILE = 'package_report.json'
 TOP_PYPI_PACKAGES = 'top-pypi-packages-30-days.min.json'
 
-def load_and_sort_top_packages(json_file):
+def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
     """Load the JSON file and sort it by download_count."""
     with open(json_file, 'r') as f:
         data = json.load(f)
@@ -20,9 +20,9 @@ def load_and_sort_top_packages(json_file):
     sorted_rows = sorted(data['rows'], key=lambda x: x['download_count'], reverse=True)
     return sorted_rows
 
-def analyze_package(package_name, rank=None, download_count=None):
+def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None) -> Dict[str, Any]:
     """Analyze a single package and generate a report."""
-    package_report = {
+    package_report: Dict[str, Any] = {
         "DownloadCount": download_count,
         "DownloadRanking": rank,
     }
@@ -67,8 +67,8 @@ def analyze_package(package_name, rank=None, download_count=None):
 
     return package_report
 
-def main(top_n=None, package_name=None, write_json=False, write_html=False):
-    package_report = {}
+def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_json: bool = False, write_html: bool = False) -> None:
+    package_report: Dict[str, Any] = {}
 
     if package_name:
         # Analyze a specific package
@@ -83,7 +83,8 @@ def main(top_n=None, package_name=None, write_json=False, write_html=False):
             package_name = package_data['project']
             download_count = package_data['download_count']
 
-            package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count)
+            if package_name:  # Ensure package_name is not None
+                package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count)
 
     # Conditionally write the JSON report
     if write_json:
