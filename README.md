@@ -50,6 +50,10 @@ This methodology ensures an accurate and detailed analysis of type coverage for 
 
 ## Usage
 
+Clone the typeshed repo into the root of the project
+
+`git clone git@github.com:python/typeshed.git`
+
 Call the main function with the top number of packages to analyze, the max is 8,000.
 
 `python3 main.py 100`
