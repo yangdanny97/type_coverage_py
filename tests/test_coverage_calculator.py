@@ -43,8 +43,8 @@ def test_calculate_overall_coverage_with_skipped_files():
     # Test with files that can't be parsed
     files = ["tests/test_files/syntax_error.py"]
     coverage_data = calculate_overall_coverage(files)
-    assert coverage_data["parameter_coverage"] == 100.0  # No parameters to cover
-    assert coverage_data["return_type_coverage"] == 100.0  # No returns to cover
+    assert coverage_data["parameter_coverage"] == -1.0  # No parameters to cover
+    assert coverage_data["return_type_coverage"] == -1.0  # No returns to cover
     assert coverage_data["skipped_files"] == 1
 
 def test_fully_annotated():

@@ -54,7 +54,14 @@ Clone the typeshed repo into the root of the project
 
 `git clone git@github.com:python/typeshed.git`
 
-Call the main function with the top number of packages to analyze, the max is 8,000.
+Call the main function with the top N packages to analyze, the max is 8,000.
 
-`python3 main.py 100`
+`python main.py 100`
 
+Alternatively call with a single package
+
+`python main.py --package-name flask`
+
+Analyze the top N packages and generate both JSON and HTML reports:
+
+`python main.py 100 --write-json --write-html`

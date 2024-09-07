@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import Mock
 from io import BytesIO
 import tarfile
 import tempfile
@@ -39,18 +40,15 @@ def mock_get(*args, **kwargs):
 
     return MockResponse()
 
-def test_main(monkeypatch):
+def test_main_with_write_json_and_write_html(monkeypatch):
     def mock_load_and_sort_top_packages(json_file):
         return [
             {"download_count": 1000, "project": "package_a"},
             {"download_count": 500, "project": "package_b"},
         ]
-
-    def mock_generate_report(*args, **kwargs):
-        print("generate_report called with args:", args, "and kwargs:", kwargs)
     
-    def mock_generate_report_html(*args, **kwargs):
-        print("generate_report_html called with args:", args, "and kwargs:", kwargs)
+    mock_generate_report = Mock()
+    mock_generate_report_html = Mock()
 
     monkeypatch.setattr("main.load_and_sort_top_packages", mock_load_and_sort_top_packages)
     monkeypatch.setattr("main.generate_report", mock_generate_report)
@@ -61,5 +59,40 @@ def test_main(monkeypatch):
         json_file = os.path.join(temp_dir, 'package_report.json')
         monkeypatch.setattr("main.JSON_REPORT_FILE", json_file)
 
-        main(2)
+        # Test when --write-json and --write-html flags are passed
+        main(top_n=2, write_json=True, write_html=True)
+
+        # Check that the JSON file was created
         assert os.path.exists(json_file)
+
+        # Check that the HTML report was generated
+        mock_generate_report_html.assert_called_once()
+
+def test_main_without_write_json_and_write_html(monkeypatch):
+    def mock_load_and_sort_top_packages(json_file):
+        return [
+            {"download_count": 1000, "project": "package_a"},
+            {"download_count": 500, "project": "package_b"},
+        ]
+    
+    mock_generate_report = Mock()
+    mock_generate_report_html = Mock()
+
+    monkeypatch.setattr("main.load_and_sort_top_packages", mock_load_and_sort_top_packages)
+    monkeypatch.setattr("main.generate_report", mock_generate_report)
+    monkeypatch.setattr("main.generate_report_html", mock_generate_report_html)
+    monkeypatch.setattr("requests.get", mock_get)
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        json_file = os.path.join(temp_dir, 'package_report.json')
+        monkeypatch.setattr("main.JSON_REPORT_FILE", json_file)
+
+        # Test when --write-json and --write-html flags are not passed
+        main(top_n=2, write_json=False, write_html=False)
+
+        # Check that the JSON file was NOT created
+        assert not os.path.exists(json_file)
+
+        # Check that the HTML report generation was NOT called
+        mock_generate_report_html.assert_not_called()
+
