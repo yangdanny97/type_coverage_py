@@ -5,14 +5,14 @@ import tarfile
 import tempfile
 import os
 import sys
-import json
+from typing import Any, Dict
 
 # Add the directory containing main.py to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from main import main, load_and_sort_top_packages
+from main import main
 
-def create_mock_tar_gz():
+def create_mock_tar_gz() -> bytes:
     # Create a mock tar.gz file in memory
     tar_bytes = BytesIO()
     with tarfile.open(fileobj=tar_bytes, mode='w:gz') as tar:
@@ -23,25 +23,25 @@ def create_mock_tar_gz():
     tar_bytes.seek(0)
     return tar_bytes.read()
 
-def mock_get(*args, **kwargs):
+def mock_get(*args: Any, **kwargs: Any) -> Any:
     class MockResponse:
-        def raise_for_status(self):
+        def raise_for_status(self) -> None:
             pass
 
-        def json(self):
+        def json(self) -> Dict[str, Any]:
             return {
                 "urls": [{"packagetype": "sdist", "url": "https://example.com/fake_package.tar.gz"}]
             }
 
         @property
-        def content(self):
+        def content(self) -> bytes:
             # Return a valid tar.gz file content
             return create_mock_tar_gz()
 
     return MockResponse()
 
-def test_main_with_write_json_and_write_html(monkeypatch):
-    def mock_load_and_sort_top_packages(json_file):
+def test_main_with_write_json_and_write_html(monkeypatch: pytest.MonkeyPatch) -> None:
+    def mock_load_and_sort_top_packages(json_file: str) -> list[Dict[str, Any]]:
         return [
             {"download_count": 1000, "project": "package_a"},
             {"download_count": 500, "project": "package_b"},
@@ -68,8 +68,8 @@ def test_main_with_write_json_and_write_html(monkeypatch):
         # Check that the HTML report was generated
         mock_generate_report_html.assert_called_once()
 
-def test_main_without_write_json_and_write_html(monkeypatch):
-    def mock_load_and_sort_top_packages(json_file):
+def test_main_without_write_json_and_write_html(monkeypatch: pytest.MonkeyPatch) -> None:
+    def mock_load_and_sort_top_packages(json_file: str) -> list[Dict[str, Any]]:
         return [
             {"download_count": 1000, "project": "package_a"},
             {"download_count": 500, "project": "package_b"},
@@ -95,4 +95,3 @@ def test_main_without_write_json_and_write_html(monkeypatch):
 
         # Check that the HTML report generation was NOT called
         mock_generate_report_html.assert_not_called()
-

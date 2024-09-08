@@ -50,16 +50,20 @@ def test_calculate_overall_coverage_with_skipped_files():
 def test_fully_annotated():
     files = ["tests/test_files/fully_annotated.py"]
     param_coverage, skipped_files = calculate_parameter_coverage(files)
-    return_coverage, _ = calculate_return_type_coverage(files)
+    return_coverage, skipped_files_return = calculate_return_type_coverage(files)
     assert param_coverage == 100.0
     assert return_coverage == 100.0
     assert skipped_files == 0
+    assert skipped_files_return == 0
 
 def test_partially_annotated():
     files = ["tests/test_files/partially_annotated.py"]
     param_coverage, skipped_files = calculate_parameter_coverage(files)
-    return_coverage, _ = calculate_return_type_coverage(files)
-    assert param_coverage == pytest.approx(33.33, rel=1e-2)  # Using pytest.approx for floating-point comparison
+    return_coverage, _ = calculate_return_type_coverage(files)  # Removed the unused variable
+
+    # Using pytest.approx for floating-point comparison
+    assert param_coverage == pytest.approx(33.33, rel=1e-2) # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert return_coverage == pytest.approx(66.67, rel=1e-2) # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
     assert skipped_files == 0
 
 def test_complex_types():
@@ -91,7 +95,7 @@ def test_class_methods():
     param_coverage, skipped_files = calculate_parameter_coverage(files)
     return_coverage, _ = calculate_return_type_coverage(files)
     assert param_coverage == 100.0  # All parameters annotated
-    assert return_coverage == pytest.approx(66.67, rel=1e-2)  # 2 out of 3 methods annotated with return type
+    assert return_coverage == pytest.approx(66.67, rel=1e-2)  # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
     assert skipped_files == 0
 
 def test_order_independence_for_pyi_and_py():
