@@ -10,7 +10,7 @@ from typing import Any, Dict
 # Add the directory containing main.py to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from main import main
+from main import main, analyze_package
 
 def create_mock_tar_gz() -> bytes:
     # Create a mock tar.gz file in memory
@@ -95,3 +95,57 @@ def test_main_without_write_json_and_write_html(monkeypatch: pytest.MonkeyPatch)
 
         # Check that the HTML report generation was NOT called
         mock_generate_report_html.assert_not_called()
+
+def test_main_analyze_package(monkeypatch: pytest.MonkeyPatch) -> None:
+    with tempfile.TemporaryDirectory() as temp_dir:  # Create a temp directory here
+        def mock_extract_files(package_name: str, temp_dir: str) -> list[str]:
+            return [
+                f"{temp_dir}/package_a/module.py",
+                f"{temp_dir}/package_a/tests/test_module.py"
+            ]
+
+        def mock_check_typeshed(package_name: str) -> bool:
+            return True
+
+        def mock_find_stub_files(package_name: str) -> list[str]:
+            return [f"{temp_dir}/package_a/module.pyi"]
+
+        def mock_merge_files_with_stubs(non_test_files: list[str], stub_files: list[str]) -> list[str]:
+            return non_test_files + stub_files
+
+        def mock_calculate_overall_coverage(files: list[str]) -> Dict[str, float]:
+            # Check if the files are test or non-test files based on path
+            if any("tests" in file for file in files):
+                return {
+                    "parameter_coverage": 50.0,  # Test files have lower coverage
+                    "return_type_coverage": 50.0,
+                    "skipped_files": 1
+                }
+            else:
+                return {
+                    "parameter_coverage": 80.0,  # Non-test files have higher coverage
+                    "return_type_coverage": 80.0,
+                    "skipped_files": 1
+                }
+        mock_generate_report = Mock()
+
+        # Patch the correct module path for calculate_overall_coverage
+        monkeypatch.setattr("main.extract_files", mock_extract_files)
+        monkeypatch.setattr("main.check_typeshed", mock_check_typeshed)
+        monkeypatch.setattr("main.find_stub_files", mock_find_stub_files)
+        monkeypatch.setattr("main.merge_files_with_stubs", mock_merge_files_with_stubs)
+        monkeypatch.setattr("main.calculate_overall_coverage", mock_calculate_overall_coverage)
+        monkeypatch.setattr("main.generate_report", mock_generate_report)
+        monkeypatch.setattr("requests.get", mock_get)
+
+        # Test with a single package analysis
+        package_report = analyze_package("package_a", rank=1, download_count=1000)
+
+        # Check that the report contains the expected data
+        assert package_report["CoverageData"]["parameter_coverage"] == 80.0
+        assert package_report["CoverageData"]["return_type_coverage"] == 80.0
+        assert package_report["CoverageData"]["param_coverage_with_tests"] == 50.0
+        assert package_report["CoverageData"]["return_coverage_with_tests"] == 50.0
+        assert package_report["CoverageData"]["skipped_files"] == 1
+        mock_generate_report.assert_called_once()
+

@@ -86,7 +86,7 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         package_report["CoverageData"]["parameter_coverage_with_stubs"] = parameter_coverage_with_stubs
         package_report["CoverageData"]["return_type_coverage_with_stubs"] = return_type_coverage_with_stubs
 
-        skipped_files_total = skipped_files_with_stubs + skipped_tests
+        skipped_files_total = max(skipped_files_with_stubs, skipped_tests)
         package_report["CoverageData"]["skipped_files"] = skipped_files_total
 
         # Write CLI
