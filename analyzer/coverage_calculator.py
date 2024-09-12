@@ -61,6 +61,10 @@ def calculate_return_type_coverage(files: List[str]) -> Tuple[int, int, int]:
                     if isinstance(node, ast.FunctionDef):
                         func_name: str = node.name
 
+                        # Skip the __init__ method
+                        if func_name == "__init__":
+                            continue
+
                         # If this function is covered by a .pyi file, overwrite counts
                         if file.endswith(".pyi"):
                             functions_covered_by_pyi.add(func_name)
