@@ -1,0 +1,172 @@
+import pytest
+from analyzer.coverage_calculator import (
+    calculate_parameter_coverage,
+    calculate_return_type_coverage,
+    calculate_overall_coverage,
+    is_test_file
+)
+
+def test_calculate_parameter_coverage():
+    # Test with a basic example
+    files = ["testme/test_files/annotated_function.py"]  # Example file with annotated parameters
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    print(skipped_files)
+    assert param_coverage == 100.0
+    assert param_coverage_with_tests == 100.0
+    assert skipped_files == 0
+
+    # Test with a file that has no annotations
+    files = ["testme/test_files/non_annotated_function.py"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    assert param_coverage == 0.0
+    assert param_coverage_with_tests == 0.0
+    assert skipped_files == 0
+
+def test_calculate_return_type_coverage():
+    # Test with a basic example
+    files = ["testme/test_files/annotated_function.py"]  # Example file with return type annotations
+    return_coverage, return_coverage_with_tests, skipped_files = calculate_return_type_coverage(files)
+    assert return_coverage == 100.0
+    assert return_coverage_with_tests == 100.0
+    assert skipped_files == 0
+
+    # Test with a file that has no annotations
+    files = ["testme/test_files/non_annotated_function.py"]
+    return_coverage, return_coverage_with_tests, skipped_files = calculate_return_type_coverage(files)
+    assert return_coverage == 0.0
+    assert return_coverage_with_tests == 0.0
+    assert skipped_files == 0
+
+def test_calculate_overall_coverage():
+    # Test with a mix of files
+    files = ["testme/test_files/annotated_function.py", "testme/test_files/non_annotated_function.py"]
+    coverage_data = calculate_overall_coverage(files)
+    assert coverage_data["parameter_coverage"] == 50.0  # Assuming 1 file with 100% and 1 with 0%
+    assert coverage_data["return_type_coverage"] == 50.0
+    assert coverage_data["return_coverage_with_tests"] == 50.0
+    assert coverage_data["param_coverage_with_tests"] == 50.0
+    assert coverage_data["skipped_files"] == 0
+
+def test_calculate_overall_coverage_with_skipped_files():
+    # Test with files that can't be parsed
+    files = ["testme/test_files/syntax_error.py"]
+    coverage_data = calculate_overall_coverage(files)
+    assert coverage_data["parameter_coverage"] == -1.0  # No parameters to cover
+    assert coverage_data["return_type_coverage"] == -1.0  # No returns to cover
+    assert coverage_data["return_coverage_with_tests"] == -1.0
+    assert coverage_data["param_coverage_with_tests"] == -1.0
+    assert coverage_data["skipped_files"] == 1
+
+def test_fully_annotated():
+    files = ["testme/test_files/fully_annotated.py"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    return_coverage, return_coverage_with_tests, skipped_files_return = calculate_return_type_coverage(files)
+    assert param_coverage == 100.0
+    assert return_coverage == 100.0
+    assert param_coverage_with_tests == 100.0
+    assert return_coverage_with_tests == 100.0
+    assert skipped_files == 0
+    assert skipped_files_return == 0
+
+def test_partially_annotated():
+    files = ["testme/test_files/partially_annotated.py"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    return_coverage, return_coverage_with_tests, _ = calculate_return_type_coverage(files)  # Removed the unused variable
+
+    # Using pytest.approx for floating-point comparison
+    assert param_coverage == pytest.approx(33.33, rel=1e-2) # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert param_coverage_with_tests == pytest.approx(33.33, rel=1e-2) # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert return_coverage == pytest.approx(66.67, rel=1e-2) # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert return_coverage_with_tests == pytest.approx(66.67, rel=1e-2) # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert skipped_files == 0
+
+def test_complex_types():
+    files = ["testme/test_files/complex_types.py"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    return_coverage, return_coverage_with_tests, _ = calculate_return_type_coverage(files)
+    assert param_coverage == 100.0
+    assert param_coverage_with_tests == 100.0
+    assert return_coverage == 100.0
+    assert return_coverage_with_tests == 100.0
+    assert skipped_files == 0
+
+def test_nested_functions():
+    files = ["testme/test_files/nested_functions.py"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    return_coverage, return_coverage_with_tests, _ = calculate_return_type_coverage(files)
+    assert param_coverage == 100.0
+    assert param_coverage_with_tests == 100.0
+    assert return_coverage == 100.0
+    assert return_coverage_with_tests == 100.0
+    assert skipped_files == 0
+
+def test_embedded_pyi():
+    files = ["testme/test_files/embedded_pyi.py", "testme/test_files/embedded_pyi.pyi"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    return_coverage, return_coverage_with_tests, _ = calculate_return_type_coverage(files)
+    assert param_coverage == 100.0
+    assert param_coverage_with_tests == 100.0
+    assert return_coverage == 100.0
+    assert return_coverage_with_tests == 100.0
+    assert skipped_files == 0
+
+def test_class_methods():
+    files = ["testme/test_files/class_methods.py"]
+    param_coverage, param_coverage_with_tests, skipped_files = calculate_parameter_coverage(files)
+    return_coverage, return_coverage_with_tests, _ = calculate_return_type_coverage(files)
+    assert param_coverage == 100.0
+    assert param_coverage_with_tests == 100.0
+    assert return_coverage == pytest.approx(66.67, rel=1e-2)  # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert return_coverage_with_tests == pytest.approx(66.67, rel=1e-2)  # type: ignore  https://github.com/pytest-dev/pytest/issues/8495
+    assert skipped_files == 0
+
+def test_order_independence_for_pyi_and_py():
+    # Define the file paths for the .py and .pyi files
+    py_file = "testme/test_files/embedded_pyi.py"
+    pyi_file = "testme/test_files/embedded_pyi.pyi"
+    
+    # Test with .py first, then .pyi
+    files_py_first = [py_file, pyi_file]
+    param_coverage_py_first, param_coverage_with_test_py_first, skipped_files_py_first = calculate_parameter_coverage(files_py_first)
+    return_coverage_py_first, return_coverage_with_test_py_first, _ = calculate_return_type_coverage(files_py_first)
+    
+    # Test with .pyi first, then .py
+    files_pyi_first = [pyi_file, py_file]
+    param_coverage_pyi_first, param_coverage_with_test_pyi_first, skipped_files_pyi_first = calculate_parameter_coverage(files_pyi_first)
+    return_coverage_pyi_first, return_coverage_with_test_pyi_first, _ = calculate_return_type_coverage(files_pyi_first)
+    
+    # Assert that both orders produce the same results
+    assert param_coverage_py_first == param_coverage_pyi_first, "Parameter coverage should be the same regardless of file order"
+    assert return_coverage_py_first == return_coverage_pyi_first, "Return type coverage should be the same regardless of file order"
+    assert param_coverage_with_test_py_first == param_coverage_with_test_pyi_first, "Parameter coverage with tests should be the same regardless of file order"
+    assert return_coverage_with_test_py_first == return_coverage_with_test_pyi_first, "Return coverage with tests should be the same regardless of file order"
+    assert skipped_files_py_first == skipped_files_pyi_first, "Skipped files should be the same regardless of file order"
+
+def test_skip_init_files():
+    # Test with __init__.py files that should be skipped
+    files = ["testme/test_files/__init__.py", "testme/test_files/annotated_function.py"]
+    
+    # Check parameter coverage
+    param_coverage, param_coverage_with_test, skipped_files = calculate_parameter_coverage(files)
+    assert param_coverage == 100.0  # Only annotated_function.py should be considered
+    assert param_coverage_with_test == 100.0  # Only annotated_function.py should be considered
+    assert skipped_files == 0  # No file should be skipped due to errors, only __init__.py ignored
+    
+    # Check return type coverage
+    return_coverage, return_coverage_with_test, _ = calculate_return_type_coverage(files)
+    assert return_coverage == 100.0  # Only annotated_function.py should be considered
+    assert return_coverage_with_test == 100.0  # Only annotated_function.py should be considered
+
+    # Check overall coverage
+    coverage_data = calculate_overall_coverage(files)
+    assert coverage_data["parameter_coverage"] == 100.0
+    assert coverage_data["return_type_coverage"] == 100.0
+    assert coverage_data["skipped_files"] == 0  # No skipped files due to syntax or errors
+
+def test_skip_test_files():
+    # Test with a directory that should be skipped
+    assert is_test_file("src/tests/test_function.py") == True
+    assert is_test_file("src/my_package/module.py") == False
+    assert is_test_file("tests/test_function.py") == True
+    assert is_test_file("my_package/module.py") == False
+
