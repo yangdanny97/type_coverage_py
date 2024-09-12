@@ -1,7 +1,7 @@
 import ast
 from typing import List, Tuple, Dict
 
-def calculate_parameter_coverage(files: List[str]) -> Tuple[float, int]:
+def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
     total_params: int = 0
     annotated_params: int = 0
     skipped_files: int = 0
@@ -42,15 +42,9 @@ def calculate_parameter_coverage(files: List[str]) -> Tuple[float, int]:
     # Sum up the final counts
     total_params = sum(counts[0] for counts in function_param_counts.values())
     annotated_params = sum(counts[1] for counts in function_param_counts.values())
-    
-    if total_params == 0:
-        return -1.0, skipped_files
+    return total_params, annotated_params, skipped_files
 
-    coverage: float = (annotated_params / total_params) * 100.0
-
-    return coverage, skipped_files
-
-def calculate_return_type_coverage(files: List[str]) -> Tuple[float, int]:
+def calculate_return_type_coverage(files: List[str]) -> Tuple[int, int, int]:
     total_functions: int = 0
     annotated_functions: int = 0
     skipped_files: int = 0
@@ -87,21 +81,19 @@ def calculate_return_type_coverage(files: List[str]) -> Tuple[float, int]:
     total_functions = sum(counts[0] for counts in function_return_counts.values())
     annotated_functions = sum(counts[1] for counts in function_return_counts.values())
 
-    if total_functions == 0:
-        return -1.0, skipped_files
-
-    coverage: float = (annotated_functions / total_functions) * 100.0
-
-    return coverage, skipped_files
+    return total_functions, annotated_functions, skipped_files
 
 def calculate_overall_coverage(files: List[str]) -> Dict[str, float]:
-    param_coverage, param_skipped = calculate_parameter_coverage(files)
-    return_type_coverage, return_skipped = calculate_return_type_coverage(files)
+    total_params, annotated_params, param_skipped = calculate_parameter_coverage(files)
+    total_functions, annotated_functions, return_skipped = calculate_return_type_coverage(files)
 
     total_skipped: int = max(param_skipped, return_skipped)
 
     return {
-        "parameter_coverage": param_coverage,
-        "return_type_coverage": return_type_coverage,
+        "parameter_coverage": calculuate_coverage(annotated_params, total_params),
+        "return_type_coverage": calculuate_coverage(annotated_functions, total_functions),
         "skipped_files": total_skipped
     }
+
+def calculuate_coverage(covered: int, total: int) -> float:
+    return (covered / total) * 100 if total > 0 else -1.0
