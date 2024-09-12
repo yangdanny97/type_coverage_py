@@ -20,11 +20,22 @@ def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
     sorted_rows = sorted(data['rows'], key=lambda x: x['download_count'], reverse=True)
     return sorted_rows
 
+def separate_test_files(files: List[str]) -> List[str]:
+    """Separate files into test files and non-test files."""
+    non_test_files: List[str] = []
+    
+    for file in files:
+        if "test" not in file or "tests" not in file:
+            non_test_files.append(file)
+    
+    return non_test_files
+
 def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None) -> Dict[str, Any]:
     """Analyze a single package and generate a report."""
     package_report: Dict[str, Any] = {
         "DownloadCount": download_count,
         "DownloadRanking": rank,
+        "CoverageData": {}
     }
 
     # Create a temporary directory
@@ -35,29 +46,50 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         print(f"Analyzing package: {package_name} rank {rank}")
 
         # Download and extract package files
-        files = extract_files(package_name, temp_dir)
+        files = extract_files(package_name, temp_dir)        
 
-        # Check if typeshed exists
+        # Separate test and non-test files
+        non_test_files = separate_test_files(files)
+
+        non_test_coverage = calculate_overall_coverage(non_test_files)
+        parameter_coverage = non_test_coverage["parameter_coverage"]
+        return_type_coverage = non_test_coverage["return_type_coverage"]
+        skipped_files_non_tests = non_test_coverage["skipped_files"]
+        
+        package_report["CoverageData"]["parameter_coverage"] = parameter_coverage
+        package_report["CoverageData"]["return_type_coverage"] = return_type_coverage
+
+        total_test_coverage = calculate_overall_coverage(files)
+        skipped_tests = total_test_coverage["skipped_files"]
+
+        package_report["CoverageData"]["param_coverage_with_tests"] = total_test_coverage["parameter_coverage"]
+        package_report["CoverageData"]["return_coverage_with_tests"] = total_test_coverage["return_type_coverage"]
+
+        # Merge non-test files with typeshed stubs
         typeshed_exists = check_typeshed(package_name)
         package_report["HasTypeShed"] = typeshed_exists
-
-        # Calculate coverage
-        coverage_data = calculate_overall_coverage(files)
-        package_report["CoverageData"] = coverage_data
-
         if typeshed_exists:
             print(f"Typeshed exists for {package_name}. Including it in analysis.")
-            typestub_files = find_stub_files(package_name)
-            merged_files = merge_files_with_stubs(files, typestub_files)
+            stub_files = find_stub_files(package_name)
+            merged_files = merge_files_with_stubs(non_test_files, stub_files)
 
-            coverage_data_with_stubs = calculate_overall_coverage(merged_files)
-            package_report["CoverageData"]["parameter_coverage_with_stubs"] = coverage_data_with_stubs["parameter_coverage"]
-            package_report["CoverageData"]["return_type_coverage_with_stubs"] = coverage_data_with_stubs["return_type_coverage"]
+            # Calculate coverage with stubs
+            total_test_coverage_stubs = calculate_overall_coverage(merged_files)
+            parameter_coverage_with_stubs = total_test_coverage_stubs["parameter_coverage"]
+            return_type_coverage_with_stubs = total_test_coverage_stubs["return_type_coverage"]
+            skipped_files_with_stubs = total_test_coverage["skipped_files"]
         else:
-            package_report["CoverageData"]["parameter_coverage_with_stubs"] = coverage_data["parameter_coverage"]
-            package_report["CoverageData"]["return_type_coverage_with_stubs"] = coverage_data["return_type_coverage"]
+            parameter_coverage_with_stubs = parameter_coverage
+            return_type_coverage_with_stubs = return_type_coverage
+            skipped_files_with_stubs = skipped_files_non_tests
 
-        # Generate report
+        package_report["CoverageData"]["parameter_coverage_with_stubs"] = parameter_coverage_with_stubs
+        package_report["CoverageData"]["return_type_coverage_with_stubs"] = return_type_coverage_with_stubs
+
+        skipped_files_total = skipped_files_with_stubs + skipped_tests
+        package_report["CoverageData"]["skipped_files"] = skipped_files_total
+
+        # Write CLI
         generate_report(package_report, package_name)
 
     finally:
