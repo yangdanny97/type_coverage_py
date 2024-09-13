@@ -97,7 +97,6 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         package_report["CoverageData"]["skipped_files"] = skipped_files_total
 
         # Write CLI
-        print(package_report)
         generate_report(package_report, package_name)
 
     finally:

@@ -4,17 +4,17 @@ from typing import Any, Dict
 
 CSV_URL = "https://alexwaygood.github.io/typeshed-stats/stats_as_csv.csv"
 
-def generate_coverage_percent(num, denom):
-    if float(denom) <= 0:
+def generate_coverage_percent(annotated: str, unannotated: str) -> float:
+    if float(unannotated) <= 0:
         return -1.0
-    return (float(num) / float(denom)) * 100
+    return (float(annotated) / (float(unannotated) + float(annotated))) * 100
 
 def download_typeshed_csv() -> Dict[str, Dict[str, Any]]:
     """Download and parse the typeshed CSV file into a dictionary."""
     response = requests.get(CSV_URL)
     response.raise_for_status()  # Ensure the download was successful
 
-    typeshed_data = {}
+    typeshed_data: Dict[str, Dict[str, Any]] = {}
     decoded_content = response.content.decode('utf-8').splitlines()
     csv_reader = csv.DictReader(decoded_content)
 
