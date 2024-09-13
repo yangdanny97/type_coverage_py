@@ -117,6 +117,7 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
 
     for package_name, details in package_report.items():
         coverage_data = details['CoverageData']
+        typeshed_data = details.get('TypeshedData', {})
         parameter_coverage = round(coverage_data['parameter_coverage'], 2)
         return_coverage = round(coverage_data['return_type_coverage'], 2)
         parameter_coverage_with_stubs = round(coverage_data.get('parameter_coverage_with_stubs', 0), 2)

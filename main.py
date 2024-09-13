@@ -8,6 +8,7 @@ from analyzer.package_analyzer import extract_files
 from analyzer.typeshed_checker import check_typeshed, find_stub_files, merge_files_with_stubs
 from analyzer.coverage_calculator import calculate_overall_coverage
 from analyzer.report_generator import generate_report, generate_report_html
+from coverage_sources.typeshed_coverage import download_typeshed_csv
 
 JSON_REPORT_FILE = 'package_report.json'
 TOP_PYPI_PACKAGES = 'top-pypi-packages-30-days.min.json'
@@ -30,7 +31,7 @@ def separate_test_files(files: List[str]) -> List[str]:
     
     return non_test_files
 
-def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None) -> Dict[str, Any]:
+def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None, typeshed_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """Analyze a single package and generate a report."""
     package_report: Dict[str, Any] = {
         "DownloadCount": download_count,
@@ -83,6 +84,12 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
             return_type_coverage_with_stubs = return_type_coverage
             skipped_files_with_stubs = skipped_files_non_tests
 
+        # Add typeshed data if available
+        if typeshed_data and package_name in typeshed_data:
+            package_report["TypeshedData"] = typeshed_data[package_name]
+        else:
+            package_report["TypeshedData"] = {}
+
         package_report["CoverageData"]["parameter_coverage_with_stubs"] = parameter_coverage_with_stubs
         package_report["CoverageData"]["return_type_coverage_with_stubs"] = return_type_coverage_with_stubs
 
@@ -90,6 +97,7 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         package_report["CoverageData"]["skipped_files"] = skipped_files_total
 
         # Write CLI
+        print(package_report)
         generate_report(package_report, package_name)
 
     finally:
@@ -102,10 +110,13 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
 def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_json: bool = False, write_html: bool = False) -> None:
     package_report: Dict[str, Any] = {}
 
+    # Download the CSV file with typeshed stats
+    typeshed_data = download_typeshed_csv()
+
     if package_name:
         # Analyze a specific package
         print(f"Analyzing specific package: {package_name}")
-        package_report[package_name] = analyze_package(package_name)
+        package_report[package_name] = analyze_package(package_name, typeshed_data=typeshed_data)
     else:
         # Analyze top N packages
         sorted_packages = load_and_sort_top_packages(TOP_PYPI_PACKAGES)
@@ -116,7 +127,7 @@ def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_
             download_count = package_data['download_count']
 
             if package_name:  # Ensure package_name is not None
-                package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count)
+                package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count, typeshed_data=typeshed_data)
 
     # Conditionally write the JSON report
     if write_json:
