@@ -19,7 +19,7 @@ def download_typeshed_csv() -> Dict[str, Dict[str, Any]]:
     csv_reader = csv.DictReader(decoded_content)
 
     for row in csv_reader:
-        package_name = row['package_name'].strip()
+        package_name = row['package_name'].strip().lower()
         annotated_parameters = row['annotated_parameters']
         unannotated_parameters = row['unannotated_parameters']
         annotated_returns = row['annotated_returns']
