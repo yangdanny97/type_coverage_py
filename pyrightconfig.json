@@ -14,5 +14,6 @@
     "reportMissingTypeStubs": true,
     "reportMissingImports": true,
     "typeCheckingMode": "strict",
-    "venvPath": "./.venv/",
+    "venv": ".venv",
+    "venvPath": "."
 }

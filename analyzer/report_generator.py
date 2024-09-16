@@ -23,10 +23,10 @@ def generate_report(package_data: Dict[str, Dict[str, float]], package_name: str
         print(f"Completeness Level: {typeshed_data.get('completeness_level', 'N/A')}")
         print(f"Annotated Parameters: {typeshed_data.get('annotated_parameters', 'N/A')}")
         print(f"Unannotated Parameters: {typeshed_data.get('unannotated_parameters', 'N/A')}")
-        print(f"Parameter Coverage: {typeshed_data.get('% param', 'N/A'):.2f}%")
+        print(f"Parameter Coverage: {typeshed_data.get('% param')}")
         print(f"Annotated Returns: {typeshed_data.get('annotated_returns', 'N/A')}")
         print(f"Unannotated Returns: {typeshed_data.get('unannotated_returns', 'N/A')}")
-        print(f"Return Coverage: {typeshed_data.get('% return', 'N/A'):.2f}%")
+        print(f"Return Coverage: {typeshed_data.get('% return')}")
         print(f"Stubtest Strictness: {typeshed_data.get('stubtest_strictness', 'N/A')}")
         print(f"Stubtest Platforms: {typeshed_data.get('stubtest_platforms', 'N/A')}")
     print("-" * 40)
@@ -46,11 +46,11 @@ def get_color(percentage: float) -> str:
     blue = 200  # A small amount of blue for a softer, more pleasant color
     return f"rgb({red},{green},{blue})"
 
-def create_percentage_row(percentage: Union[float, str]):
+def create_percentage_row(percentage: Union[str, float]) -> str:
     if type(percentage) == str:
         return f"<td class=\"coverage-cell\">{percentage}</td>"
 
-    percentage_color = get_color(percentage)
+    percentage_color = get_color(float(percentage))
     return f"<td class=\"coverage-cell\" style=\"background-color: {percentage_color};\">{percentage:.2f}%</td>"
 
 def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]]) -> None:
@@ -186,7 +186,7 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
     </body>
     </html>
     """
-    print(html_content)
+
     # Output the HTML to a file
     with open(HTML_REPORT_FILE, "w") as file:
         file.write(html_content)
