@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Union
 
 HTML_REPORT_FILE = "index.html"
 
@@ -23,10 +23,10 @@ def generate_report(package_data: Dict[str, Dict[str, float]], package_name: str
         print(f"Completeness Level: {typeshed_data.get('completeness_level', 'N/A')}")
         print(f"Annotated Parameters: {typeshed_data.get('annotated_parameters', 'N/A')}")
         print(f"Unannotated Parameters: {typeshed_data.get('unannotated_parameters', 'N/A')}")
-        print(f"Parameter Coverage: {typeshed_data.get('% param', 'N/A'):.2f}%")
+        print(f"Parameter Coverage: {typeshed_data.get('% param')}")
         print(f"Annotated Returns: {typeshed_data.get('annotated_returns', 'N/A')}")
         print(f"Unannotated Returns: {typeshed_data.get('unannotated_returns', 'N/A')}")
-        print(f"Return Coverage: {typeshed_data.get('% return', 'N/A'):.2f}%")
+        print(f"Return Coverage: {typeshed_data.get('% return')}")
         print(f"Stubtest Strictness: {typeshed_data.get('stubtest_strictness', 'N/A')}")
         print(f"Stubtest Platforms: {typeshed_data.get('stubtest_platforms', 'N/A')}")
     print("-" * 40)
@@ -45,6 +45,13 @@ def get_color(percentage: float) -> str:
     
     blue = 200  # A small amount of blue for a softer, more pleasant color
     return f"rgb({red},{green},{blue})"
+
+def create_percentage_row(percentage: Union[str, float]) -> str:
+    if type(percentage) == str:
+        return f"<td class=\"coverage-cell\">{percentage}</td>"
+
+    percentage_color = get_color(float(percentage))
+    return f"<td class=\"coverage-cell\" style=\"background-color: {percentage_color};\">{percentage:.2f}%</td>"
 
 def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]]) -> None:
     """Generates an HTML report of the package coverage data."""
@@ -141,25 +148,18 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
         typeshed_data = details.get('TypeshedData', {})
         parameter_coverage = round(coverage_data['parameter_coverage'], 2)
         return_coverage = round(coverage_data['return_type_coverage'], 2)
+
         parameter_coverage_with_stubs = round(coverage_data.get('parameter_coverage_with_stubs', 0), 2)
         return_coverage_with_stubs = round(coverage_data.get('return_type_coverage_with_stubs', 0), 2)
         param_coverage_with_tests = round(coverage_data.get('param_coverage_with_tests', 0), 2)
-        return_coverage_with_tests = round(coverage_data.get('return_coverage_with_tests', 0), 2)
-        
-        param_color = get_color(parameter_coverage)
-        return_color = get_color(return_coverage)
-        param_stub_color = get_color(parameter_coverage_with_stubs)
-        return_stub_color = get_color(return_coverage_with_stubs)
-        param_coverage_with_tests_color = get_color(param_coverage_with_tests)
-        return_coverage_with_tests_color = get_color(return_coverage_with_tests)
+        return_coverage_with_tests = round(coverage_data.get('return_coverage_with_tests', 0), 2)    
+
         skipped_files = f"{coverage_data['skipped_files']}"
         
         completeness_level = typeshed_data.get('completeness_level', 'N/A')
         stubtest_strictness = typeshed_data.get('stubtest_strictness', 'N/A')
-        typshed_return_percent = typeshed_data.get('% param', -1.0)
-        typshed_param_percent = typeshed_data.get('% return', -1.0)
-        typshed_return_percent_color = get_color(typshed_return_percent)
-        typshed_param_percent_color = get_color(typshed_param_percent)
+        typshed_return_percent = typeshed_data.get('% param', 'N/A')
+        typshed_param_percent = typeshed_data.get('% return', 'N/A')
 
         html_content += f"""
             <tr>
@@ -167,14 +167,14 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
                 <td>{package_name}</td>
                 <td>{details['DownloadCount']}</td>
                 <td>{'Yes' if details['HasTypeShed'] else 'No'}</td>
-                <td class="coverage-cell" style="background-color: {param_color};">{parameter_coverage:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {return_color};">{return_coverage:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {param_stub_color};">{parameter_coverage_with_stubs:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {return_stub_color};">{return_coverage_with_stubs:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {param_coverage_with_tests_color};">{param_coverage_with_tests:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {return_coverage_with_tests_color};">{return_coverage_with_tests:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {typshed_param_percent_color};">{typshed_param_percent:.2f}%</td>
-                <td class="coverage-cell" style="background-color: {typshed_return_percent_color};">{typshed_return_percent:.2f}%</td>
+                {create_percentage_row(parameter_coverage)}
+                {create_percentage_row(return_coverage)}
+                {create_percentage_row(parameter_coverage_with_stubs)}
+                {create_percentage_row(return_coverage_with_stubs)}
+                {create_percentage_row(param_coverage_with_tests)}
+                {create_percentage_row(return_coverage_with_tests)}
+                {create_percentage_row(typshed_param_percent)}
+                {create_percentage_row(typshed_return_percent)}
                 <td class="skipped-cell">{skipped_files}</td>
                 <td>{completeness_level}</td>
                 <td>{stubtest_strictness}</td>
