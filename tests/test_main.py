@@ -12,6 +12,13 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from main import main, analyze_package
 
+def mock_download_typeshed_csv() -> Dict[str, Any]:
+    # Return a mock dictionary that would simulate the CSV data
+    return {
+        "package_a": {"typeshed_coverage": 85.0},
+        "package_b": {"typeshed_coverage": 90.0}
+    }
+
 def create_mock_tar_gz() -> bytes:
     # Create a mock tar.gz file in memory
     tar_bytes = BytesIO()
@@ -53,6 +60,7 @@ def test_main_with_write_json_and_write_html(monkeypatch: pytest.MonkeyPatch) ->
     monkeypatch.setattr("main.load_and_sort_top_packages", mock_load_and_sort_top_packages)
     monkeypatch.setattr("main.generate_report", mock_generate_report)
     monkeypatch.setattr("main.generate_report_html", mock_generate_report_html)
+    monkeypatch.setattr("main.download_typeshed_csv", mock_download_typeshed_csv)
     monkeypatch.setattr("requests.get", mock_get)
 
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -81,6 +89,7 @@ def test_main_without_write_json_and_write_html(monkeypatch: pytest.MonkeyPatch)
     monkeypatch.setattr("main.load_and_sort_top_packages", mock_load_and_sort_top_packages)
     monkeypatch.setattr("main.generate_report", mock_generate_report)
     monkeypatch.setattr("main.generate_report_html", mock_generate_report_html)
+    monkeypatch.setattr("main.download_typeshed_csv", mock_download_typeshed_csv)
     monkeypatch.setattr("requests.get", mock_get)
 
     with tempfile.TemporaryDirectory() as temp_dir:
