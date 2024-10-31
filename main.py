@@ -1,44 +1,59 @@
-import tempfile
-import shutil
-import json
-import sys
 import argparse
-from typing import Optional, Any, Dict, List, Set, Tuple
-from analyzer.package_analyzer import extract_files
-from analyzer.typeshed_checker import check_typeshed, find_typeshed_stub_files, merge_files_with_stubs
-from analyzer.coverage_calculator import calculate_overall_coverage
-from analyzer.report_generator import generate_report, generate_report_html
-from coverage_sources.typeshed_coverage import download_typeshed_csv
 import concurrent.futures
+import json
+import shutil
+import sys
+import tempfile
+from typing import Any, Dict, List, Optional, Set, Tuple
 
-JSON_REPORT_FILE = 'package_report.json'
-TOP_PYPI_PACKAGES = 'top-pypi-packages-30-days.min.json'
-STUB_PACKAGES = 'stub_packages.json'
+from analyzer.coverage_calculator import calculate_overall_coverage
+from analyzer.package_analyzer import extract_files
+from analyzer.report_generator import generate_report, generate_report_html
+from analyzer.typeshed_checker import (
+    check_typeshed,
+    find_typeshed_stub_files,
+    merge_files_with_stubs,
+)
+from coverage_sources.typeshed_coverage import download_typeshed_csv
+
+JSON_REPORT_FILE = "package_report.json"
+TOP_PYPI_PACKAGES = "top-pypi-packages-30-days.min.json"
+STUB_PACKAGES = "stub_packages.json"
+
 
 def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
     """Load the JSON file and sort it by download_count."""
-    with open(json_file, 'r') as f:
+    with open(json_file, "r") as f:
         data = json.load(f)
-    
-    sorted_rows = sorted(data['rows'], key=lambda x: x['download_count'], reverse=True)
+
+    sorted_rows = sorted(data["rows"], key=lambda x: x["download_count"], reverse=True)
     return sorted_rows
+
 
 def separate_test_files(files: List[str]) -> List[str]:
     """Separate files into test files and non-test files."""
     non_test_files: List[str] = []
-    
+
     for file in files:
         if "test" not in file or "tests" not in file:
             non_test_files.append(file)
-    
+
     return non_test_files
 
-def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None, typeshed_data: Optional[Dict[str, Any]] = None, has_stub_package: bool = False, parallel: bool = False) -> Dict[str, Any]:
+
+def analyze_package(
+    package_name: str,
+    rank: Optional[int] = None,
+    download_count: Optional[int] = None,
+    typeshed_data: Optional[Dict[str, Any]] = None,
+    has_stub_package: bool = False,
+    parallel: bool = False,
+) -> Dict[str, Any]:
     """Analyze a single package and generate a report."""
     package_report: Dict[str, Any] = {
         "DownloadCount": download_count,
         "DownloadRanking": rank,
-        "CoverageData": {}
+        "CoverageData": {},
     }
 
     # Create a temporary directory
@@ -49,13 +64,15 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         print(f"Analyzing package: {package_name} rank {rank}")
 
         # Download and extract package files
-        files = extract_files(package_name, temp_dir)        
+        files = extract_files(package_name, temp_dir)
 
         # Separate test and non-test files
         non_test_files = separate_test_files(files)
 
         if has_stub_package:
-            stub_package_files = extract_files(package_name + "-stubs", stub_package_dir)
+            stub_package_files = extract_files(
+                package_name + "-stubs", stub_package_dir
+            )
             files = merge_files_with_stubs(files, stub_package_files)
             non_test_files = merge_files_with_stubs(non_test_files, stub_package_files)
 
@@ -63,15 +80,19 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         parameter_coverage = non_test_coverage["parameter_coverage"]
         return_type_coverage = non_test_coverage["return_type_coverage"]
         skipped_files_non_tests = non_test_coverage["skipped_files"]
-        
+
         package_report["CoverageData"]["parameter_coverage"] = parameter_coverage
         package_report["CoverageData"]["return_type_coverage"] = return_type_coverage
 
         total_test_coverage = calculate_overall_coverage(files)
         skipped_tests = total_test_coverage["skipped_files"]
 
-        package_report["CoverageData"]["param_coverage_with_tests"] = total_test_coverage["parameter_coverage"]
-        package_report["CoverageData"]["return_coverage_with_tests"] = total_test_coverage["return_type_coverage"]
+        package_report["CoverageData"]["param_coverage_with_tests"] = (
+            total_test_coverage["parameter_coverage"]
+        )
+        package_report["CoverageData"]["return_coverage_with_tests"] = (
+            total_test_coverage["return_type_coverage"]
+        )
 
         # Merge non-test files with typeshed stubs
         typeshed_exists = check_typeshed(package_name)
@@ -85,8 +106,12 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
 
             # Calculate coverage with stubs
             total_test_coverage_stubs = calculate_overall_coverage(merged_files)
-            parameter_coverage_with_stubs = total_test_coverage_stubs["parameter_coverage"]
-            return_type_coverage_with_stubs = total_test_coverage_stubs["return_type_coverage"]
+            parameter_coverage_with_stubs = total_test_coverage_stubs[
+                "parameter_coverage"
+            ]
+            return_type_coverage_with_stubs = total_test_coverage_stubs[
+                "return_type_coverage"
+            ]
             skipped_files_with_stubs = total_test_coverage["skipped_files"]
         else:
             parameter_coverage_with_stubs = parameter_coverage
@@ -99,8 +124,12 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         else:
             package_report["TypeshedData"] = {}
 
-        package_report["CoverageData"]["parameter_coverage_with_stubs"] = parameter_coverage_with_stubs
-        package_report["CoverageData"]["return_type_coverage_with_stubs"] = return_type_coverage_with_stubs
+        package_report["CoverageData"][
+            "parameter_coverage_with_stubs"
+        ] = parameter_coverage_with_stubs
+        package_report["CoverageData"][
+            "return_type_coverage_with_stubs"
+        ] = return_type_coverage_with_stubs
 
         skipped_files_total = max(skipped_files_with_stubs, skipped_tests)
         package_report["CoverageData"]["skipped_files"] = skipped_files_total
@@ -116,15 +145,22 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
 
     return package_report
 
+
 def get_packages_with_stubs() -> set[str]:
-    with open(STUB_PACKAGES, 'r') as f:
+    with open(STUB_PACKAGES, "r") as f:
         data = json.load(f)
     return set(data)
 
-def analyze_package_concurrently(package_data: Dict[str, Any], rank: int, typeshed_data: Dict[str, Dict[str, Any]], packages_with_stubs: Set[str]) -> Tuple[str, Dict[str, Any]] | None:
-    package_name = package_data['project']
-    download_count = package_data['download_count']
-    
+
+def analyze_package_concurrently(
+    package_data: Dict[str, Any],
+    rank: int,
+    typeshed_data: Dict[str, Dict[str, Any]],
+    packages_with_stubs: Set[str],
+) -> Tuple[str, Dict[str, Any]] | None:
+    package_name = package_data["project"]
+    download_count = package_data["download_count"]
+
     if package_name:  # Ensure package_name is not None
         return package_name, analyze_package(
             package_name,
@@ -132,15 +168,26 @@ def analyze_package_concurrently(package_data: Dict[str, Any], rank: int, typesh
             download_count=download_count,
             typeshed_data=typeshed_data,
             has_stub_package=package_name in packages_with_stubs,
-            parallel=True
+            parallel=True,
         )
     return None
 
-def parallel_analyze_packages(top_packages: List[Dict[str, Any]], typeshed_data: Dict[str, Dict[str, Any]], packages_with_stubs: Set[str]) -> Dict[str, Any]:
+
+def parallel_analyze_packages(
+    top_packages: List[Dict[str, Any]],
+    typeshed_data: Dict[str, Dict[str, Any]],
+    packages_with_stubs: Set[str],
+) -> Dict[str, Any]:
     package_report: Dict[str, Any] = {}
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
-            executor.submit(analyze_package_concurrently, package_data, rank, typeshed_data, packages_with_stubs): package_data
+            executor.submit(
+                analyze_package_concurrently,
+                package_data,
+                rank,
+                typeshed_data,
+                packages_with_stubs,
+            ): package_data
             for rank, package_data in enumerate(top_packages, start=1)
         }
         for future in concurrent.futures.as_completed(futures):
@@ -150,7 +197,14 @@ def parallel_analyze_packages(top_packages: List[Dict[str, Any]], typeshed_data:
                 package_report[package_name] = analysis_result
     return package_report
 
-def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_json: bool = False, write_html: bool = False, parallel: bool = False) -> None:
+
+def main(
+    top_n: Optional[int] = None,
+    package_name: Optional[str] = None,
+    write_json: bool = False,
+    write_html: bool = False,
+    parallel: bool = False,
+) -> None:
     package_report: Dict[str, Any] = {}
 
     # Download the CSV file with typeshed stats
@@ -160,21 +214,33 @@ def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_
     if package_name:
         # Analyze a specific package
         print(f"Analyzing specific package: {package_name}")
-        package_report[package_name] = analyze_package(package_name, typeshed_data=typeshed_data, has_stub_package=package_name in packages_with_stubs)
+        package_report[package_name] = analyze_package(
+            package_name,
+            typeshed_data=typeshed_data,
+            has_stub_package=package_name in packages_with_stubs,
+        )
     else:
         # Analyze top N packages
         sorted_packages = load_and_sort_top_packages(TOP_PYPI_PACKAGES)
         top_packages = sorted_packages[:top_n]
         if parallel:
-            package_report = parallel_analyze_packages(top_packages, typeshed_data, packages_with_stubs)
+            package_report = parallel_analyze_packages(
+                top_packages, typeshed_data, packages_with_stubs
+            )
         else:
             for rank, package_data in enumerate(top_packages, start=1):
-                package_name = package_data['project']
-                download_count = package_data['download_count']
+                package_name = package_data["project"]
+                download_count = package_data["download_count"]
 
                 if package_name:  # Ensure package_name is not None
-                    package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count, typeshed_data=typeshed_data, has_stub_package=package_name in packages_with_stubs, parallel=False)
-
+                    package_report[package_name] = analyze_package(
+                        package_name,
+                        rank=rank,
+                        download_count=download_count,
+                        typeshed_data=typeshed_data,
+                        has_stub_package=package_name in packages_with_stubs,
+                        parallel=False,
+                    )
 
     # Conditionally write the JSON report
     if write_json:
@@ -189,22 +255,43 @@ def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Analyze Python package type coverage.")
-    parser.add_argument('top_n', type=int, nargs='?', help="Analyze the top N PyPI packages.")
-    parser.add_argument('--package-name', type=str, help="Analyze a specific package by name.")
-    parser.add_argument('--write-json', action='store_true', help="Write the output to a JSON report.")
-    parser.add_argument('--write-html', action='store_true', help="Generate an HTML report.")
-    parser.add_argument('--parallel', action='store_true', help="Analyze packages in parallel.")
+    parser = argparse.ArgumentParser(
+        description="Analyze Python package type coverage."
+    )
+    parser.add_argument(
+        "top_n", type=int, nargs="?", help="Analyze the top N PyPI packages."
+    )
+    parser.add_argument(
+        "--package-name", type=str, help="Analyze a specific package by name."
+    )
+    parser.add_argument(
+        "--write-json", action="store_true", help="Write the output to a JSON report."
+    )
+    parser.add_argument(
+        "--write-html", action="store_true", help="Generate an HTML report."
+    )
+    parser.add_argument(
+        "--parallel", action="store_true", help="Analyze packages in parallel."
+    )
 
     args = parser.parse_args()
 
     if args.package_name:
-        main(package_name=args.package_name, write_json=args.write_json, write_html=args.write_html)
+        main(
+            package_name=args.package_name,
+            write_json=args.write_json,
+            write_html=args.write_html,
+        )
     elif args.top_n:
         if not (1 <= args.top_n <= 8000):
             print("Error: <top_n> must be an integer between 1 and 8000.")
             sys.exit(1)
-        main(top_n=args.top_n, write_json=args.write_json, write_html=args.write_html, parallel=args.parallel)
+        main(
+            top_n=args.top_n,
+            write_json=args.write_json,
+            write_html=args.write_html,
+            parallel=args.parallel,
+        )
     else:
         print("Error: Either provide a top N number or a package name.")
         sys.exit(1)
