@@ -5,13 +5,14 @@ import sys
 import argparse
 from typing import Optional, Any, Dict, List
 from analyzer.package_analyzer import extract_files
-from analyzer.typeshed_checker import check_typeshed, find_stub_files, merge_files_with_stubs
+from analyzer.typeshed_checker import check_typeshed, find_typeshed_stub_files, merge_files_with_stubs
 from analyzer.coverage_calculator import calculate_overall_coverage
 from analyzer.report_generator import generate_report, generate_report_html
 from coverage_sources.typeshed_coverage import download_typeshed_csv
 
 JSON_REPORT_FILE = 'package_report.json'
 TOP_PYPI_PACKAGES = 'top-pypi-packages-30-days.min.json'
+STUB_PACKAGES = 'stub_packages.json'
 
 def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
     """Load the JSON file and sort it by download_count."""
@@ -31,7 +32,7 @@ def separate_test_files(files: List[str]) -> List[str]:
     
     return non_test_files
 
-def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None, typeshed_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def analyze_package(package_name: str, rank: Optional[int] = None, download_count: Optional[int] = None, typeshed_data: Optional[Dict[str, Any]] = None, has_stub_package: bool = False) -> Dict[str, Any]:
     """Analyze a single package and generate a report."""
     package_report: Dict[str, Any] = {
         "DownloadCount": download_count,
@@ -41,9 +42,9 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
 
     # Create a temporary directory
     temp_dir = tempfile.mkdtemp()
+    stub_package_dir = tempfile.mkdtemp()
 
     try:
-        print(f"Temporary directory created: {temp_dir} for {package_name}")
         print(f"Analyzing package: {package_name} rank {rank}")
 
         # Download and extract package files
@@ -51,6 +52,11 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
 
         # Separate test and non-test files
         non_test_files = separate_test_files(files)
+
+        if has_stub_package:
+            stub_package_files = extract_files(package_name + "-stubs", stub_package_dir)
+            files = merge_files_with_stubs(files, stub_package_files)
+            non_test_files = merge_files_with_stubs(non_test_files, stub_package_files)
 
         non_test_coverage = calculate_overall_coverage(non_test_files)
         parameter_coverage = non_test_coverage["parameter_coverage"]
@@ -69,9 +75,10 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
         # Merge non-test files with typeshed stubs
         typeshed_exists = check_typeshed(package_name)
         package_report["HasTypeShed"] = typeshed_exists
+        package_report["HasStubsPackage"] = has_stub_package
         if typeshed_exists:
             print(f"Typeshed exists for {package_name}. Including it in analysis.")
-            stub_files = find_stub_files(package_name)
+            stub_files = find_typeshed_stub_files(package_name)
             merged_files = merge_files_with_stubs(non_test_files, stub_files)
 
             # Calculate coverage with stubs
@@ -102,20 +109,26 @@ def analyze_package(package_name: str, rank: Optional[int] = None, download_coun
     finally:
         # Clean up the temporary directory
         shutil.rmtree(temp_dir)
-        print(f"Temporary directory {temp_dir} has been deleted.")
+        shutil.rmtree(stub_package_dir)
 
     return package_report
+
+def get_packages_with_stubs() -> set[str]:
+    with open(STUB_PACKAGES, 'r') as f:
+        data = json.load(f)
+    return set(data)
 
 def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_json: bool = False, write_html: bool = False) -> None:
     package_report: Dict[str, Any] = {}
 
     # Download the CSV file with typeshed stats
     typeshed_data = download_typeshed_csv()
+    packages_with_stubs = get_packages_with_stubs()
 
     if package_name:
         # Analyze a specific package
         print(f"Analyzing specific package: {package_name}")
-        package_report[package_name] = analyze_package(package_name, typeshed_data=typeshed_data)
+        package_report[package_name] = analyze_package(package_name, typeshed_data=typeshed_data, has_stub_package=package_name in packages_with_stubs)
     else:
         # Analyze top N packages
         sorted_packages = load_and_sort_top_packages(TOP_PYPI_PACKAGES)
@@ -126,7 +139,7 @@ def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_
             download_count = package_data['download_count']
 
             if package_name:  # Ensure package_name is not None
-                package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count, typeshed_data=typeshed_data)
+                package_report[package_name] = analyze_package(package_name, rank=rank, download_count=download_count, typeshed_data=typeshed_data, has_stub_package=package_name in packages_with_stubs)
 
     # Conditionally write the JSON report
     if write_json:
@@ -138,6 +151,7 @@ def main(top_n: Optional[int] = None, package_name: Optional[str] = None, write_
     if write_html:
         generate_report_html(package_report)
         print("HTML report generated.")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze Python package type coverage.")

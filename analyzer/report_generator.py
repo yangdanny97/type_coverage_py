@@ -9,6 +9,7 @@ def generate_report(package_data: Dict[str, Dict[str, float]], package_name: str
     
     # Print package coverage
     print(f"Coverage Report for {package_name}:")
+    print(f"Has stubs package: {package_data['HasStubsPackage']}")
     print(f"Has typeshed stubs: {package_data['HasTypeShed']}")
     print(f"Parameter Type Coverage: {coverage_data['parameter_coverage']:.2f}%")
     print(f"Return Type Coverage: {coverage_data['return_type_coverage']:.2f}%")
@@ -129,6 +130,7 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
                 <th>Package Name</th>
                 <th>Download Count</th>
                 <th>Has Typeshed</th>
+                <th>Has Stubs Package</th>
                 <th>Parameter Type Coverage</th>
                 <th>Return Type Coverage</th>
                 <th>Parameter Coverage with Typeshed</th>
@@ -167,6 +169,7 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
                 <td>{package_name}</td>
                 <td>{details['DownloadCount']}</td>
                 <td>{'Yes' if details['HasTypeShed'] else 'No'}</td>
+                <td>{'Yes' if details['HasStubsPackage'] else 'No'}</td>
                 {create_percentage_row(parameter_coverage)}
                 {create_percentage_row(return_coverage)}
                 {create_percentage_row(parameter_coverage_with_stubs)}
@@ -192,4 +195,3 @@ def generate_report_html(package_report: Dict[str, Dict[str, Dict[str, float]]])
         file.write(html_content)
 
     print(f"HTML report generated: {HTML_REPORT_FILE}")
-
