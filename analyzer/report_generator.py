@@ -194,8 +194,8 @@ def generate_report_html(package_report: Dict[str, Any]) -> None:
                 <td>{details['DownloadRanking']}</td>
                 <td>{package_name}</td>
                 <td>{details['DownloadCount']}</td>
-                <td>{create_boolean_row(details['HasTypeShed'])}</td>
-                <td>{create_boolean_row(details['HasStubsPackage'])}</td>
+                {create_boolean_row(details['HasTypeShed'])}
+                {create_boolean_row(details['HasStubsPackage'])}
                 {create_percentage_row(parameter_coverage)}
                 {create_percentage_row(return_coverage)}
                 {create_percentage_row(parameter_coverage_with_stubs)}
