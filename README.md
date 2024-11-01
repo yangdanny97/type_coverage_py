@@ -70,4 +70,4 @@ Alternatively call with a single package
 
 Analyze the top N packages and generate both JSON and HTML reports:
 
-`python main.py 100 --write-json --write-html`
+`python main.py 100 --write-json --write-html --parallel`
