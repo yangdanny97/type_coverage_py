@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 HTML_REPORT_FILE = "index.html"
 
@@ -71,9 +71,13 @@ def create_percentage_row(percentage: Union[str, float]) -> str:
     return f'<td class="coverage-cell" style="background-color: {percentage_color};">{percentage:.2f}%</td>'
 
 
-def generate_report_html(
-    package_report: Dict[str, Dict[str, Dict[str, float]]]
-) -> None:
+def create_boolean_row(value: bool) -> str:
+    color = "green" if value else "red"
+    text = "Yes" if value else "No"
+    return f'<td style="background-color: {color};">{text}</td>'
+
+
+def generate_report_html(package_report: Dict[str, Any]) -> None:
     """Generates an HTML report of the package coverage data."""
     html_content = """
     <!DOCTYPE html>
@@ -152,18 +156,14 @@ def generate_report_html(
                 <th>Has Stubs Package</th>
                 <th>Parameter Type Coverage</th>
                 <th>Return Type Coverage</th>
-                <th>Parameter Coverage with Typeshed</th>
-                <th>Return Type Coverage with Typeshed</th>
-                <th>Parameter Coverage with Test</th>
-                <th>Return Type Coverage with Test</th>
-                <th>Typeshed Parameter Type Coverage</th>
-                <th>Typeshed Return Type Coverage</th>
-                <th>Skipped Files</th>
-                <th>Typeshed Completeness Level</th>
-                <th>Typeshed Stubtest Strictness</th>
+                <th>Parameter Coverage w/ Typeshed</th>
+                <th>Return Type Coverage w/ Typeshed</th>
+                <th>Typeshed-stats Parameter Type Coverage</th>
+                <th>Typeshed-stats Return Type Coverage</th>
+                <th>Typeshed-stats Completeness Level</th>
+                <th>Typeshed-stats Stubtest Strictness</th>
             </tr>
     """
-
     for package_name, details in package_report.items():
         coverage_data = details["CoverageData"]
         typeshed_data = details.get("TypeshedData", {})
@@ -176,14 +176,13 @@ def generate_report_html(
         return_coverage_with_stubs = round(
             coverage_data.get("return_type_coverage_with_stubs", 0), 2
         )
-        param_coverage_with_tests = round(
-            coverage_data.get("param_coverage_with_tests", 0), 2
-        )
-        return_coverage_with_tests = round(
-            coverage_data.get("return_coverage_with_tests", 0), 2
-        )
-
-        skipped_files = f"{coverage_data['skipped_files']}"
+        # param_coverage_with_tests = round(
+        #     coverage_data.get("param_coverage_with_tests", 0), 2
+        # )
+        # return_coverage_with_tests = round(
+        #     coverage_data.get("return_coverage_with_tests", 0), 2
+        # )
+        # skipped_files = f"{coverage_data['skipped_files']}"
 
         completeness_level = typeshed_data.get("completeness_level", "N/A")
         stubtest_strictness = typeshed_data.get("stubtest_strictness", "N/A")
@@ -195,17 +194,14 @@ def generate_report_html(
                 <td>{details['DownloadRanking']}</td>
                 <td>{package_name}</td>
                 <td>{details['DownloadCount']}</td>
-                <td>{'Yes' if details['HasTypeShed'] else 'No'}</td>
-                <td>{'Yes' if details['HasStubsPackage'] else 'No'}</td>
+                <td>{create_boolean_row(details['HasTypeShed'])}</td>
+                <td>{create_boolean_row(details['HasStubsPackage'])}</td>
                 {create_percentage_row(parameter_coverage)}
                 {create_percentage_row(return_coverage)}
                 {create_percentage_row(parameter_coverage_with_stubs)}
                 {create_percentage_row(return_coverage_with_stubs)}
-                {create_percentage_row(param_coverage_with_tests)}
-                {create_percentage_row(return_coverage_with_tests)}
                 {create_percentage_row(typshed_param_percent)}
                 {create_percentage_row(typshed_return_percent)}
-                <td class="skipped-cell">{skipped_files}</td>
                 <td>{completeness_level}</td>
                 <td>{stubtest_strictness}</td>
             </tr>

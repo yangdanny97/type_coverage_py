@@ -33,11 +33,11 @@ def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
 def separate_test_files(files: List[str]) -> List[str]:
     """Separate files into test files and non-test files."""
     non_test_files: List[str] = []
-
     for file in files:
-        if "test" not in file or "tests" not in file:
-            non_test_files.append(file)
-
+        parts = [x.replace("_", "") for x in file.split("/")]
+        if "test" in parts or "tests" in parts:
+            continue
+        non_test_files.append(file)
     return non_test_files
 
 
@@ -58,7 +58,7 @@ def analyze_package(
 
     # Create a temporary directory
     temp_dir = tempfile.mkdtemp()
-    stub_package_dir = tempfile.mkdtemp()
+    stub_package_dir = tempfile.mkdtemp() if has_stub_package else None
 
     try:
         print(f"Analyzing package: {package_name} rank {rank}")
@@ -69,7 +69,7 @@ def analyze_package(
         # Separate test and non-test files
         non_test_files = separate_test_files(files)
 
-        if has_stub_package:
+        if stub_package_dir:
             stub_package_files = extract_files(
                 package_name + "-stubs", stub_package_dir
             )
@@ -141,7 +141,8 @@ def analyze_package(
     finally:
         # Clean up the temporary directory
         shutil.rmtree(temp_dir)
-        shutil.rmtree(stub_package_dir)
+        if stub_package_dir:
+            shutil.rmtree(stub_package_dir)
 
     return package_report
 
@@ -195,6 +196,8 @@ def parallel_analyze_packages(
             if result:
                 package_name, analysis_result = result
                 package_report[package_name] = analysis_result
+    sorted_pairs = sorted([pair for pair in package_report.items()], key=lambda x: x[1]["DownloadRanking"])
+    package_report = {k: v for k, v in sorted_pairs}
     return package_report
 
 
