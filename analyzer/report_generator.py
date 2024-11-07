@@ -14,6 +14,7 @@ def generate_report(
     print(f"Coverage Report for {package_name}:")
     print(f"Has stubs package: {package_data['HasStubsPackage']}")
     print(f"Has typeshed stubs: {package_data['HasTypeShed']}")
+    print(f"Has py.typed: {package_data['HasPyTypedFile']}")
     print(f"Parameter Type Coverage: {coverage_data['parameter_coverage']:.2f}%")
     print(f"Return Type Coverage: {coverage_data['return_type_coverage']:.2f}%")
     print(
@@ -154,6 +155,7 @@ def generate_report_html(package_report: Dict[str, Any]) -> None:
                 <th>Download Count</th>
                 <th>Has Typeshed</th>
                 <th>Has Stubs Package</th>
+                <th>Has py.typed File</th>
                 <th>Parameter Type Coverage</th>
                 <th>Return Type Coverage</th>
                 <th>Parameter Coverage w/ Typeshed</th>
@@ -196,6 +198,7 @@ def generate_report_html(package_report: Dict[str, Any]) -> None:
                 <td>{details['DownloadCount']}</td>
                 {create_boolean_row(details['HasTypeShed'])}
                 {create_boolean_row(details['HasStubsPackage'])}
+                {create_boolean_row(details['HasPyTypedFile'])}
                 {create_percentage_row(parameter_coverage)}
                 {create_percentage_row(return_coverage)}
                 {create_percentage_row(parameter_coverage_with_stubs)}

@@ -55,19 +55,22 @@ def download_package(package_name: str, temp_dir: str) -> str:
     return temp_dir
 
 
-def extract_files(package_name: str, temp_dir: str) -> List[str]:
+def extract_files(package_name: str, temp_dir: str) -> tuple[List[str], bool]:
     """Extracts Python files from the downloaded package directory."""
     try:
         package_dir = download_package(package_name, temp_dir)
     except ValueError as e:
         print(f"Warning: {e}")
-        return []
+        return [], False
 
     python_files: List[str] = []
+    has_py_typed_file = False
 
     for root, _, files in os.walk(package_dir):
         for file in files:
             if file.endswith(".py") or file.endswith(".pyi"):
                 python_files.append(os.path.join(root, file))
+            if file.endswith("py.typed"):
+                has_py_typed_file = True
 
-    return python_files
+    return python_files, has_py_typed_file

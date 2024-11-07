@@ -64,17 +64,20 @@ def analyze_package(
         print(f"Analyzing package: {package_name} rank {rank}")
 
         # Download and extract package files
-        files = extract_files(package_name, temp_dir)
+        files, has_py_typed_file = extract_files(package_name, temp_dir)
 
         # Separate test and non-test files
         non_test_files = separate_test_files(files)
 
+        stub_has_py_typed_file = False
         if stub_package_dir:
-            stub_package_files = extract_files(
+            stub_package_files, stub_has_py_typed_file = extract_files(
                 package_name + "-stubs", stub_package_dir
             )
             files = merge_files_with_stubs(files, stub_package_files)
             non_test_files = merge_files_with_stubs(non_test_files, stub_package_files)
+        
+        package_report["HasPyTypedFile"] = has_py_typed_file or stub_has_py_typed_file
 
         non_test_coverage = calculate_overall_coverage(non_test_files)
         parameter_coverage = non_test_coverage["parameter_coverage"]
