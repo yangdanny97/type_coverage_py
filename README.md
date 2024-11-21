@@ -4,7 +4,7 @@ Calculate the Type Coverage for top Python packages.
 
 Take the top pypi packages pulled from this project [https://github.com/hugovk/top-pypi-packages](https://github.com/hugovk/top-pypi-packages)
 
-View report here: [https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/main/index.html](https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/main/index.html)
+View report here: [https://html-preview.github.io/?url=https://github.com/yangdanny97/type_coverage_py/blob/main/index.html](https://html-preview.github.io/?url=https://github.com/yangdanny97/type_coverage_py/blob/main/index.html)
 
 ## Methodology
 
