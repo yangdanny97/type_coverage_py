@@ -76,16 +76,18 @@ def analyze_package(
             )
             files = merge_files_with_stubs(files, stub_package_files)
             non_test_files = merge_files_with_stubs(non_test_files, stub_package_files)
-        
+
         package_report["HasPyTypedFile"] = has_py_typed_file or stub_has_py_typed_file
 
         non_test_coverage = calculate_overall_coverage(non_test_files)
         parameter_coverage = non_test_coverage["parameter_coverage"]
         return_type_coverage = non_test_coverage["return_type_coverage"]
         skipped_files_non_tests = non_test_coverage["skipped_files"]
+        surface_area = non_test_coverage["surface_area"]
 
         package_report["CoverageData"]["parameter_coverage"] = parameter_coverage
         package_report["CoverageData"]["return_type_coverage"] = return_type_coverage
+        package_report["SurfaceArea"] = surface_area
 
         total_test_coverage = calculate_overall_coverage(files)
         skipped_tests = total_test_coverage["skipped_files"]
@@ -199,7 +201,9 @@ def parallel_analyze_packages(
             if result:
                 package_name, analysis_result = result
                 package_report[package_name] = analysis_result
-    sorted_pairs = sorted([pair for pair in package_report.items()], key=lambda x: x[1]["DownloadRanking"])
+    sorted_pairs = sorted(
+        [pair for pair in package_report.items()], key=lambda x: x[1]["DownloadRanking"]
+    )
     package_report = {k: v for k, v in sorted_pairs}
     return package_report
 

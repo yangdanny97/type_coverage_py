@@ -178,13 +178,6 @@ def generate_report_html(package_report: Dict[str, Any]) -> None:
         return_coverage_with_stubs = round(
             coverage_data.get("return_type_coverage_with_stubs", 0), 2
         )
-        # param_coverage_with_tests = round(
-        #     coverage_data.get("param_coverage_with_tests", 0), 2
-        # )
-        # return_coverage_with_tests = round(
-        #     coverage_data.get("return_coverage_with_tests", 0), 2
-        # )
-        # skipped_files = f"{coverage_data['skipped_files']}"
 
         completeness_level = typeshed_data.get("completeness_level", "N/A")
         stubtest_strictness = typeshed_data.get("stubtest_strictness", "N/A")

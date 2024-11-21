@@ -116,6 +116,7 @@ def calculate_overall_coverage(files: List[str]) -> Dict[str, float]:
             annotated_functions, total_functions
         ),
         "skipped_files": total_skipped,
+        "surface_area": total_params + total_functions,
     }
 
 
