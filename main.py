@@ -84,6 +84,8 @@ def analyze_package(
         return_type_coverage = non_test_coverage["return_type_coverage"]
         skipped_files_non_tests = non_test_coverage["skipped_files"]
         surface_area = non_test_coverage["surface_area"]
+        package_report["HasAttrCalls"] = non_test_coverage["n_hasattr"]
+        package_report["GetAttrWithDefaultCalls"] = non_test_coverage["n_getattr_default"]
 
         package_report["CoverageData"]["parameter_coverage"] = parameter_coverage
         package_report["CoverageData"]["return_type_coverage"] = return_type_coverage

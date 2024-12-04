@@ -2,10 +2,12 @@ import ast
 from typing import Dict, List, Tuple
 
 
-def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
+def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int, int, int]:
     total_params: int = 0
     annotated_params: int = 0
     skipped_files: int = 0
+    n_hasattr: int = 0
+    n_getattr_default: int = 0
 
     # To track annotations and parameters per function
     function_param_counts: Dict[str, Tuple[int, int]] = {}
@@ -45,6 +47,12 @@ def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
                                 param_count,
                                 annotation_count,
                             )
+                    if isinstance(node, ast.Call):
+                        if isinstance(node.func, ast.Name):
+                            if node.func.id == "hasattr":
+                                n_hasattr += 1
+                            elif node.func.id == "getattr" and len(node.args) == 3:
+                                n_getattr_default += 1
 
         except (SyntaxError, UnicodeDecodeError):
             skipped_files += 1
@@ -52,7 +60,7 @@ def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
     # Sum up the final counts
     total_params = sum(counts[0] for counts in function_param_counts.values())
     annotated_params = sum(counts[1] for counts in function_param_counts.values())
-    return total_params, annotated_params, skipped_files
+    return total_params, annotated_params, skipped_files, n_hasattr, n_getattr_default
 
 
 def calculate_return_type_coverage(files: List[str]) -> Tuple[int, int, int]:
@@ -103,7 +111,7 @@ def calculate_return_type_coverage(files: List[str]) -> Tuple[int, int, int]:
 
 
 def calculate_overall_coverage(files: List[str]) -> Dict[str, float]:
-    total_params, annotated_params, param_skipped = calculate_parameter_coverage(files)
+    total_params, annotated_params, param_skipped, n_hasattr, n_getattr_default = calculate_parameter_coverage(files)
     total_functions, annotated_functions, return_skipped = (
         calculate_return_type_coverage(files)
     )
@@ -117,6 +125,8 @@ def calculate_overall_coverage(files: List[str]) -> Dict[str, float]:
         ),
         "skipped_files": total_skipped,
         "surface_area": total_params + total_functions,
+        "n_hasattr": n_hasattr,
+        "n_getattr_default": n_getattr_default,
     }
 
 
