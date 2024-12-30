@@ -2,15 +2,18 @@ import ast
 import os
 from typing import List, Tuple, Dict
 
-def get_fully_qualified_name(node: ast.FunctionDef, module: str) -> str:
-    if isinstance(node.parent, ast.ClassDef):
-        return f"{module}.{node.parent.name}.{node.name}"
+def get_fully_qualified_name(node: ast.FunctionDef, module: str, parent_map: Dict[ast.AST, ast.AST]) -> str:
+    parent = parent_map.get(node)
+    if isinstance(parent, ast.ClassDef):
+        return f"{module}.{parent.name}.{node.name}"
     return f"{module}.{node.name}"
 
-def annotate_parents(tree: ast.AST):
+def build_parent_map(tree: ast.AST) -> Dict[ast.AST, ast.AST]:
+    parent_map: Dict[ast.AST, ast.AST] = {}
     for node in ast.walk(tree):
         for child in ast.iter_child_nodes(node):
-            child.parent = node
+            parent_map[child] = node
+    return parent_map
 
 def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
     total_params: int = 0
@@ -26,11 +29,20 @@ def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
             module_name = os.path.splitext(os.path.basename(file))[0]
             with open(file, 'r', encoding='utf-8', errors='ignore') as f:
                 tree = ast.parse(f.read(), filename=file)
-                annotate_parents(tree)  # Annotate the AST with parent references
+                parent_map = build_parent_map(tree)
+
+                # Use a set to track already analyzed functions
+                analyzed_functions: set[str] = set()
 
                 for node in ast.walk(tree):
                     if isinstance(node, ast.FunctionDef):
-                        func_name = get_fully_qualified_name(node, module_name)
+                        func_name = get_fully_qualified_name(node, module_name, parent_map)
+
+                        # Skip if already analyzed
+                        if func_name in analyzed_functions:
+                            continue
+
+                        analyzed_functions.add(func_name)
 
                         # Exclude 'self' and 'cls' from parameters
                         params = [arg for arg in node.args.args if arg.arg not in ('self', 'cls')]
@@ -51,6 +63,7 @@ def calculate_parameter_coverage(files: List[str]) -> Tuple[int, int, int]:
     # Sum up the final counts
     total_params = sum(counts[0] for counts in function_param_counts.values())
     annotated_params = sum(counts[1] for counts in function_param_counts.values())
+
     return total_params, annotated_params, skipped_files
 
 def calculate_return_type_coverage(files: List[str]) -> Tuple[int, int, int]:
@@ -67,11 +80,20 @@ def calculate_return_type_coverage(files: List[str]) -> Tuple[int, int, int]:
             module_name = os.path.splitext(os.path.basename(file))[0]
             with open(file, 'r', encoding='utf-8', errors='ignore') as f:
                 tree = ast.parse(f.read(), filename=file)
-                annotate_parents(tree)  # Annotate the AST with parent references
+                parent_map = build_parent_map(tree)
+
+                # Use a set to track already analyzed functions
+                analyzed_functions: set[str] = set()
 
                 for node in ast.walk(tree):
                     if isinstance(node, ast.FunctionDef):
-                        func_name = get_fully_qualified_name(node, module_name)
+                        func_name = get_fully_qualified_name(node, module_name, parent_map)
+
+                        # Skip if already analyzed
+                        if func_name in analyzed_functions:
+                            continue
+
+                        analyzed_functions.add(func_name)
 
                         # Skip the __init__ method
                         if node.name == "__init__":
