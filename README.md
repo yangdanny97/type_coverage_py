@@ -5,7 +5,7 @@ Calculate the Type Coverage for top Python packages. This analysis aims to deter
 
 Take the top pypi packages pulled from this project [https://github.com/hugovk/top-pypi-packages](https://github.com/hugovk/top-pypi-packages)
 
-View report here: [https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/main/index.html](https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/main/index.html)
+View report here: [https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/published-report/index.html](https://html-preview.github.io/?url=https://github.com/lolpack/type_coverage_py/blob/published-report/index.html)
 
 [PEP-561](https://peps.python.org/pep-0561/) defines the creation, location and MRO of Python type hints which can be inline with the code or stored as separate stubs (.pyi files). 
 ## Methodology
