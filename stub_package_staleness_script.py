@@ -1,12 +1,13 @@
 # Calculating staleness from stub packages
 
-from typing import Any, Dict
+from typing import Any
 import json
 
 import requests
 
 from datetime import datetime
 format_str = "%Y-%m-%dT%H:%M:%S"
+
 
 def get_latest_release_time_for_package(package_name: str) -> tuple[datetime, int]:
     # Fetch the package metadata from PyPI
@@ -15,12 +16,13 @@ def get_latest_release_time_for_package(package_name: str) -> tuple[datetime, in
     response.raise_for_status()
 
     # The API returns a JSON response, so 'data' is a dictionary
-    data: Dict[str, Any] = response.json()
+    data: dict[str, Any] = response.json()
     latest_version = data['info']['version']
     n_releases = len(data['releases'])
     release_info = data['releases'][latest_version]
     latest_upload = max(release_info, key=lambda x: datetime.strptime(x['upload_time'], format_str))
     return datetime.strptime(latest_upload['upload_time'], format_str), n_releases
+
 
 with open("stub_packages.json", "r") as f:
     data = json.load(f)

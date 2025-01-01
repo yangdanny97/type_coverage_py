@@ -1,25 +1,25 @@
 import csv
-from typing import Any, Dict, Union
+from typing import Any
 
 import requests
 
 CSV_URL = "https://alexwaygood.github.io/typeshed-stats/stats_as_csv.csv"
 
 
-def generate_coverage_percent(annotated: str, unannotated: str) -> Union[float, str]:
+def generate_coverage_percent(annotated: str, unannotated: str) -> float | str:
     if float(unannotated) <= 0:
         return "N/A"
     return (float(annotated) / (float(unannotated) + float(annotated))) * 100
 
 
-def download_typeshed_csv() -> Dict[str, Dict[str, Any]]:
+def download_typeshed_csv() -> dict[str, dict[str, Any]]:
     """Download and parse the typeshed CSV file into a dictionary."""
     response = requests.get(CSV_URL)
     response.raise_for_status()  # Ensure the download was successful
 
-    typeshed_data: Dict[str, Dict[str, Any]] = {}
+    typeshed_data: dict[str, dict[str, Any]] = {}
     decoded_content = response.content.decode("utf-8").splitlines()
-    csv_reader = csv.DictReader(decoded_content)
+    csv_reader = csv.dictReader(decoded_content)
 
     for row in csv_reader:
         package_name = row["package_name"].strip().lower()
@@ -28,10 +28,10 @@ def download_typeshed_csv() -> Dict[str, Dict[str, Any]]:
         annotated_returns = row["annotated_returns"]
         unannotated_returns = row["unannotated_returns"]
 
-        param_percent: Union[float, str] = generate_coverage_percent(
+        param_percent: float | str = generate_coverage_percent(
             annotated_parameters, unannotated_parameters
         )
-        return_percent: Union[float, str] = generate_coverage_percent(
+        return_percent: float | str = generate_coverage_percent(
             annotated_returns, unannotated_returns
         )
         typeshed_data[package_name] = {

@@ -4,14 +4,14 @@ import json
 import shutil
 import sys
 import tempfile
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from analyzer.coverage_calculator import calculate_overall_coverage
 from analyzer.package_analyzer import extract_files, find_stub_package
 from analyzer.report_generator import generate_report, generate_report_html, update_main_html_with_links, archive_old_reports
 from analyzer.typeshed_checker import (
     check_typeshed,
-    find_typeshed_stub_files,
+    find_stub_files,
     merge_files_with_stubs,
 )
 from coverage_sources.typeshed_coverage import download_typeshed_csv
@@ -21,7 +21,7 @@ TOP_PYPI_PACKAGES = "top-pypi-packages-30-days.min.json"
 STUB_PACKAGES = "stub_packages.json"
 
 
-def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
+def load_and_sort_top_packages(json_file: str) -> list[dict[str, Any]]:
     """Load the JSON file and sort it by download_count."""
     with open(json_file, "r") as f:
         data = json.load(f)
@@ -31,9 +31,9 @@ def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
     return sorted_rows
 
 
-def separate_test_files(files: List[str]) -> List[str]:
+def separate_test_files(files: list[str]) -> list[str]:
     """Separate files into test files and non-test files."""
-    non_test_files: List[str] = []
+    non_test_files: list[str] = []
     for file in files:
         parts = [x.replace("_", "") for x in file.split("/")]
         if "test" in parts or "tests" in parts:
@@ -46,12 +46,12 @@ def analyze_package(
     package_name: str,
     rank: Optional[int] = None,
     download_count: Optional[int] = None,
-    typeshed_data: Optional[Dict[str, Any]] = None,
+    typeshed_data: Optional[dict[str, Any]] = None,
     has_stub_package: bool = False,
     parallel: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Analyze a single package and generate a report."""
-    package_report: Dict[str, Any] = {
+    package_report: dict[str, Any] = {
         "DownloadCount": download_count,
         "DownloadRanking": rank,
         "CoverageData": {},
@@ -85,11 +85,10 @@ def analyze_package(
         parameter_coverage = non_test_coverage["parameter_coverage"]
         return_type_coverage = non_test_coverage["return_type_coverage"]
         skipped_files_non_tests = non_test_coverage["skipped_files"]
-        surface_area = non_test_coverage["surface_area"]
 
         package_report["CoverageData"]["parameter_coverage"] = parameter_coverage
         package_report["CoverageData"]["return_type_coverage"] = return_type_coverage
-        package_report["SurfaceArea"] = surface_area
+        package_report["SurfaceArea"] = non_test_coverage["surface_area"]
 
         total_test_coverage = calculate_overall_coverage(files)
         skipped_tests = total_test_coverage["skipped_files"]
@@ -107,9 +106,8 @@ def analyze_package(
         package_report["HasStubsPackage"] = has_stub_package
         if typeshed_exists:
             if not parallel:
-                print(f"Typeshed exists for {
-                      package_name}. Including it in analysis.")
-            stub_files = find_typeshed_stub_files(package_name)
+                print(f"Typeshed exists for {package_name}. Including it in analysis.")
+            stub_files = find_stub_files(package_name)
             merged_files = merge_files_with_stubs(non_test_files, stub_files)
 
             # Calculate coverage with stubs
@@ -132,7 +130,7 @@ def analyze_package(
                 # Download and merge PyPI stub files
                 stub_temp_dir = tempfile.mkdtemp()
                 try:
-                    stub_files = extract_files(
+                    stub_files, _ = extract_files(
                         f"{package_name}-stubs", stub_temp_dir)
                     merged_files = merge_files_with_stubs(
                         non_test_files, stub_files)
@@ -148,8 +146,7 @@ def analyze_package(
                     print('temp file removed', stub_temp_dir)
                     shutil.rmtree(stub_temp_dir)
             else:
-                print(f"No stubs found for {
-                      package_name} in Typeshed or PyPI.")
+                print(f"No stubs found for {package_name} in Typeshed or PyPI.")
 
                 parameter_coverage_with_stubs = parameter_coverage
                 return_type_coverage_with_stubs = return_type_coverage
@@ -174,7 +171,6 @@ def analyze_package(
         # Write CLI
         if not parallel:
             generate_report(package_report, package_name)
-
     finally:
         # Clean up the temporary directory
         shutil.rmtree(temp_dir)
@@ -191,11 +187,11 @@ def get_packages_with_stubs() -> set[str]:
 
 
 def analyze_package_concurrently(
-    package_data: Dict[str, Any],
+    package_data: dict[str, Any],
     rank: int,
-    typeshed_data: Dict[str, Dict[str, Any]],
-    packages_with_stubs: Set[str],
-) -> Tuple[str, Dict[str, Any]] | None:
+    typeshed_data: dict[str, dict[str, Any]],
+    packages_with_stubs: set[str],
+) -> tuple[str, dict[str, Any]] | None:
     package_name = package_data["project"]
     download_count = package_data["download_count"]
 
@@ -212,11 +208,11 @@ def analyze_package_concurrently(
 
 
 def parallel_analyze_packages(
-    top_packages: List[Dict[str, Any]],
-    typeshed_data: Dict[str, Dict[str, Any]],
-    packages_with_stubs: Set[str],
-) -> Dict[str, Any]:
-    package_report: Dict[str, Any] = {}
+    top_packages: list[dict[str, Any]],
+    typeshed_data: dict[str, dict[str, Any]],
+    packages_with_stubs: set[str],
+) -> dict[str, Any]:
+    package_report: dict[str, Any] = {}
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
             executor.submit(
@@ -248,7 +244,7 @@ def main(
     parallel: bool = False,
     create_daily: bool = False  # Add this parameter
 ) -> None:
-    package_report: Dict[str, Any] = {}
+    package_report: dict[str, Any] = {}
 
     # Download the CSV file with typeshed stats
     typeshed_data = download_typeshed_csv()
@@ -272,8 +268,14 @@ def main(
             )
         else:
             for rank, package_data in enumerate(top_packages, start=1):
-                package_name = package_data["project"]
+                name = package_data["project"]
                 download_count = package_data["download_count"]
+                package_report[name] = analyze_package(
+                    name,
+                    rank=rank, download_count=download_count,
+                    typeshed_data=typeshed_data,
+                    has_stub_package=package_name in packages_with_stubs,
+                )
     # Archive old report in data section
     if create_daily:
         archive_old_reports()

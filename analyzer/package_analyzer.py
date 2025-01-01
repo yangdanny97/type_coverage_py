@@ -1,9 +1,20 @@
 import os
 import tarfile
 import zipfile
-from typing import Any, Dict, List
+from typing import Any, Optional
 
 import requests
+
+
+def find_stub_package(package_name: str) -> Optional[str]:
+    """Checks if a stub package exists for the given package on PyPI."""
+    stub_package_name = f"{package_name}-stubs"
+    pypi_url = f"https://pypi.org/pypi/{stub_package_name}/json"
+    response = requests.get(pypi_url)
+
+    if response.status_code == 200:
+        return f"https://pypi.org/project/{stub_package_name}/"
+    return None
 
 
 def download_package(package_name: str, temp_dir: str) -> str:
@@ -14,10 +25,10 @@ def download_package(package_name: str, temp_dir: str) -> str:
     response.raise_for_status()
 
     # The API returns a JSON response, so 'data' is a dictionary
-    data: Dict[str, Any] = response.json()
+    data: dict[str, Any] = response.json()
 
     # 'urls' is a list of dictionaries containing information about the available distributions
-    urls: List[Dict[str, Any]] = data.get("urls", [])
+    urls: list[dict[str, Any]] = data.get("urls", [])
 
     sdist_url: str | None = None
     for url_info in urls:
@@ -57,7 +68,7 @@ def download_package(package_name: str, temp_dir: str) -> str:
     return temp_dir
 
 
-def extract_files(package_name: str, temp_dir: str) -> tuple[List[str], bool]:
+def extract_files(package_name: str, temp_dir: str) -> tuple[list[str], bool]:
     """Extracts Python files from the downloaded package directory."""
     try:
         package_dir = download_package(package_name, temp_dir)
@@ -65,7 +76,7 @@ def extract_files(package_name: str, temp_dir: str) -> tuple[List[str], bool]:
         print(f"Warning: {e}")
         return [], False
 
-    python_files: List[str] = []
+    python_files: list[str] = []
     has_py_typed_file = False
 
     for root, _, files in os.walk(package_dir):

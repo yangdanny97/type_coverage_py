@@ -1,4 +1,4 @@
-from typing import Any, Dict, Union
+from typing import Any
 import os
 import datetime
 
@@ -61,7 +61,7 @@ def update_main_html_with_links() -> None:
 
 
 def generate_report(
-    package_data: Dict[str, Dict[str, float]], package_name: str
+    package_data: dict[str, dict[str, float]], package_name: str
 ) -> None:
     """Generates a report of the coverage data."""
     coverage_data = package_data["CoverageData"]
@@ -135,7 +135,7 @@ def get_color(percentage: float) -> str:
     return f"rgb({red},{green},{blue})"
 
 
-def create_percentage_row(percentage: Union[str, float]) -> str:
+def create_percentage_row(percentage: str | float) -> str:
     if isinstance(percentage, str):
         return f"<td class=\"coverage-cell\">{percentage}</td>"
 
@@ -149,7 +149,7 @@ def create_boolean_row(value: bool) -> str:
     return f'<td style="background-color: {color};">{text}</td>'
 
 
-def generate_report_html(package_report: Dict[str, Any]) -> None:
+def generate_report_html(package_report: dict[str, Any]) -> None:
     """Generates an HTML report of the package coverage data."""
     html_content = """
     <!DOCTYPE html>
