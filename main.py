@@ -7,8 +7,8 @@ import tempfile
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from analyzer.coverage_calculator import calculate_overall_coverage
-from analyzer.package_analyzer import extract_files
-from analyzer.report_generator import generate_report, generate_report_html
+from analyzer.package_analyzer import extract_files, find_stub_package
+from analyzer.report_generator import generate_report, generate_report_html, update_main_html_with_links, archive_old_reports
 from analyzer.typeshed_checker import (
     check_typeshed,
     find_typeshed_stub_files,
@@ -26,7 +26,8 @@ def load_and_sort_top_packages(json_file: str) -> List[Dict[str, Any]]:
     with open(json_file, "r") as f:
         data = json.load(f)
 
-    sorted_rows = sorted(data["rows"], key=lambda x: x["download_count"], reverse=True)
+    sorted_rows = sorted(
+        data["rows"], key=lambda x: x["download_count"], reverse=True)
     return sorted_rows
 
 
@@ -75,7 +76,8 @@ def analyze_package(
                 package_name + "-stubs", stub_package_dir
             )
             files = merge_files_with_stubs(files, stub_package_files)
-            non_test_files = merge_files_with_stubs(non_test_files, stub_package_files)
+            non_test_files = merge_files_with_stubs(
+                non_test_files, stub_package_files)
 
         package_report["HasPyTypedFile"] = has_py_typed_file or stub_has_py_typed_file
 
@@ -105,12 +107,14 @@ def analyze_package(
         package_report["HasStubsPackage"] = has_stub_package
         if typeshed_exists:
             if not parallel:
-                print(f"Typeshed exists for {package_name}. Including it in analysis.")
+                print(f"Typeshed exists for {
+                      package_name}. Including it in analysis.")
             stub_files = find_typeshed_stub_files(package_name)
             merged_files = merge_files_with_stubs(non_test_files, stub_files)
 
             # Calculate coverage with stubs
-            total_test_coverage_stubs = calculate_overall_coverage(merged_files)
+            total_test_coverage_stubs = calculate_overall_coverage(
+                merged_files)
             parameter_coverage_with_stubs = total_test_coverage_stubs[
                 "parameter_coverage"
             ]
@@ -119,9 +123,37 @@ def analyze_package(
             ]
             skipped_files_with_stubs = total_test_coverage["skipped_files"]
         else:
-            parameter_coverage_with_stubs = parameter_coverage
-            return_type_coverage_with_stubs = return_type_coverage
-            skipped_files_with_stubs = skipped_files_non_tests
+            # Check for PyPI stub package if no Typeshed stubs exist
+            stub_package_url = find_stub_package(package_name)
+            if stub_package_url:
+                print(f"Found non-typeshed stub package: {stub_package_url}")
+                package_report["non_typeshed_stubs"] = stub_package_url
+
+                # Download and merge PyPI stub files
+                stub_temp_dir = tempfile.mkdtemp()
+                try:
+                    stub_files = extract_files(
+                        f"{package_name}-stubs", stub_temp_dir)
+                    merged_files = merge_files_with_stubs(
+                        non_test_files, stub_files)
+
+                    # Calculate coverage with stubs
+                    total_test_coverage_stubs = calculate_overall_coverage(
+                        merged_files)
+                    parameter_coverage_with_stubs = total_test_coverage_stubs["parameter_coverage"]
+                    return_type_coverage_with_stubs = total_test_coverage_stubs[
+                        "return_type_coverage"]
+                    skipped_files_with_stubs = total_test_coverage["skipped_files"]
+                finally:
+                    print('temp file removed', stub_temp_dir)
+                    shutil.rmtree(stub_temp_dir)
+            else:
+                print(f"No stubs found for {
+                      package_name} in Typeshed or PyPI.")
+
+                parameter_coverage_with_stubs = parameter_coverage
+                return_type_coverage_with_stubs = return_type_coverage
+                skipped_files_with_stubs = skipped_files_non_tests
 
         # Add typeshed data if available
         if typeshed_data and package_name in typeshed_data:
@@ -214,6 +246,7 @@ def main(
     write_json: bool = False,
     write_html: bool = False,
     parallel: bool = False,
+    create_daily: bool = False  # Add this parameter
 ) -> None:
     package_report: Dict[str, Any] = {}
 
@@ -241,16 +274,9 @@ def main(
             for rank, package_data in enumerate(top_packages, start=1):
                 package_name = package_data["project"]
                 download_count = package_data["download_count"]
-
-                if package_name:  # Ensure package_name is not None
-                    package_report[package_name] = analyze_package(
-                        package_name,
-                        rank=rank,
-                        download_count=download_count,
-                        typeshed_data=typeshed_data,
-                        has_stub_package=package_name in packages_with_stubs,
-                        parallel=False,
-                    )
+    # Archive old report in data section
+    if create_daily:
+        archive_old_reports()
 
     # Conditionally write the JSON report
     if write_json:
@@ -262,36 +288,34 @@ def main(
     if write_html:
         generate_report_html(package_report)
         print("HTML report generated.")
+    if create_daily:
+        update_main_html_with_links()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Analyze Python package type coverage."
-    )
-    parser.add_argument(
-        "top_n", type=int, nargs="?", help="Analyze the top N PyPI packages."
-    )
-    parser.add_argument(
-        "--package-name", type=str, help="Analyze a specific package by name."
-    )
-    parser.add_argument(
-        "--write-json", action="store_true", help="Write the output to a JSON report."
-    )
-    parser.add_argument(
-        "--write-html", action="store_true", help="Generate an HTML report."
-    )
+        description="Analyze Python package type coverage.")
+    parser.add_argument('top_n', type=int, nargs='?',
+                        help="Analyze the top N PyPI packages.")
+    parser.add_argument('--package-name', type=str,
+                        help="Analyze a specific package by name.")
+    parser.add_argument('--write-json', action='store_true',
+                        help="Write the output to a JSON report.")
+    parser.add_argument('--write-html', action='store_true',
+                        help="Generate an HTML report.")
+    parser.add_argument('--create-daily', action='store_true',
+                        help="Create a daily report and archive previous data.")
     parser.add_argument(
         "--parallel", action="store_true", help="Analyze packages in parallel."
     )
-
     args = parser.parse_args()
 
-    if args.package_name:
-        main(
-            package_name=args.package_name,
-            write_json=args.write_json,
-            write_html=args.write_html,
-        )
+    if args.create_daily:
+        main(top_n=(args.top_n or 8000), package_name=args.package_name,
+             write_json=True, write_html=True, create_daily=True)
+    elif args.package_name:
+        main(package_name=args.package_name,
+             write_json=args.write_json, write_html=args.write_html)
     elif args.top_n:
         if not (1 <= args.top_n <= 8000):
             print("Error: <top_n> must be an integer between 1 and 8000.")

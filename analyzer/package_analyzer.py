@@ -28,7 +28,8 @@ def download_package(package_name: str, temp_dir: str) -> str:
 
     if not sdist_url:
         raise ValueError(
-            f"Source distribution for package '{package_name}' not found on PyPI."
+            f"Source distribution for package '{
+                package_name}' not found on PyPI."
         )
 
     # Download the source distribution
@@ -47,7 +48,8 @@ def download_package(package_name: str, temp_dir: str) -> str:
         with open(archive_path, "wb") as archive_file:
             archive_file.write(sdist_response.content)
         with tarfile.open(archive_path, "r:gz") as tar_ref:
-            tar_ref.extractall(temp_dir)  # type: ignore reportDeprecated python 3.14
+            # type: ignore reportDeprecated python 3.14
+            tar_ref.extractall(temp_dir)
     else:
         raise ValueError(f"Unsupported archive format for {sdist_url}.")
 
