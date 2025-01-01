@@ -19,7 +19,7 @@ def download_typeshed_csv() -> dict[str, dict[str, Any]]:
 
     typeshed_data: dict[str, dict[str, Any]] = {}
     decoded_content = response.content.decode("utf-8").splitlines()
-    csv_reader = csv.dictReader(decoded_content)
+    csv_reader = csv.DictReader(decoded_content)
 
     for row in csv_reader:
         package_name = row["package_name"].strip().lower()
